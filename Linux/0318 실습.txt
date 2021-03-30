@@ -1,0 +1,455 @@
+﻿systemctl 실습
+
+유닛 실행(active) 상태를 확인해보시오.
+
+systemctl list-units
+
+서비스 유닛의 실행 상태를 확인해보시오.
+
+systemctl list-units -t(--type) service
+
+not-found 나 inactive 인 서비스 유닛의 실행 상태를 확인해보시오.
+
+systemctl list-units -t(--type) service -a(--all)
+
+유닛의 활성화(enable) 상태를 확인해보시오.
+
+systemctl list-unit-files
+
+httpd, sshd 서비스의 상태를 확인해보시오.
+
+systemctl stauts httpd
+systemctl stauts sshd
+
+httpd 서비스를 시작하고 활성화 시키시오.
+
+systemctl start httpd
+systemctl enable httpd
+
+sshd 서비스를 비활성화 시키시오.
+
+systemctl disable sshd
+
+httpd 서비스를 중지시키고 비활성화 시키시오. 그리고 sshd 서비스를 활성화 시키시오.
+
+systemctl stop httpd
+systemctl disable httpd
+
+systemctl enabel sshd
+
+httpd 서비스를 마스크 상태로 만드시오.
+
+systemctl mask httpd
+
+httpd 서비스를 시작해보시오.
+
+systemctl start httpd
+에러 : 마스트 상태
+
+httpd 서비스의 마스크 상태를 해제하시오.
+
+systemctl unmask httpd
+
+sshd 서비스의 상태를 확인하고 리로드와 재시작하면서 pid 를 확인해보시오.
+
+systemctl stauts sshd
+systemctl reload sshd
+systemctl stauts sshd
+PID 유지
+systemctl restart sshd
+systemctl stauts sshd
+PID 변경
+
+sshd의 의존성을 확인해보시오.
+
+systemctl list-dependencies sshd
+
+==============================================================================
+
+log 실습
+
+rsyslog 를 수정해서 인증에 대한 로그가 crit 이상으로 발생될때에 /var/log/securetest 파일에 남도록 설정하시오.
+
+vi /etc/rsyslog.conf
+
+/RULE
+
+authpriv.crit                    /var/log/securetest
+
+:wq
+
+systemctl restart rsyslog
+
+logger 명령어로 인증에 대한 기능으로 error 와 critcal 우선 순위로 각각 auth.error 와 auth.critcal 메세지를 남기고 확인하시오.
+
+logger -p authpriv.err "auth.error"
+logger -p authpriv.crit "auth.critical"
+
+tail -2 /var/log/secure
+
+auth.error
+auth.critical
+
+tail -2 /var/log/securetest
+
+auth.critical
+
+logger 명령어로 cron에 대한 0등급의 우선순위 로그를 발생시키시오.
+
+logger -p cron.emerg "cron.emerg"
+
+journal 에서 notice 우선순위 이상과 err 이상의 내용만 확인해보시오.
+
+journalctl -p notice
+
+journalctl -p err
+
+journal 의 내용이 /var/log 안에 저장이 되도록 설정하시오.
+
+mkdir /var/log/journal
+chown :systemd-journal /var/log/journal
+chmod g+s /var/log/journal
+systemctl restart systemd-journald
+
+================================================================================
+
+부트 프로세스 실습
+
+현재 default target 확인
+
+systemctl get-default
+
+다른 target으로 변경
+
+systemctl set-default multi-user.target/graphical.target
+
+
+target 전환
+
+systemctl isolate multi-user.target/graphical.target
+
+root password 변경
+
+커널선택 화면에서 아무키나 눌러서 카운트
+'e'키를 눌러서  bootloader 로 진입
+linux16 라인 마지막에 rd.break 입력후 ctrl+x
+mount -o rw,remount /sysroot
+chroot /sysroot
+passwd
+touch /.autorelabel
+ctrl + d
+ctrl + d
+
+부트로더 ID/PASSWORD 설정
+
+vi /etc/grub.d/00_header
+
+G
+o
+cat << EOF
+set superusers='ID'
+password ID PW
+EOF
+
+:wq
+
+부트로더 시간 20초로 설정
+
+vi /etc/default/grub
+
+타임을 20초로 수정
+:wq
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+================================================================================
+
+RPM 관련 패키지 정보 확인 명령어
+rpm -q (쿼리)
+      a : 시스템에 설치되어 있는 모든 패키지
+      i : 패키지에 대한 정보
+      c : 패키지의 설정파일들 보여줌
+      d : 패키지의 문서(document)를 보여줌
+      l : 패키지의 모든 파일 보여줌
+      f : 파일이나 디렉토리가 어떠한 패키지로 인해서 파생되었는지 알려줌.
+
+RPM 관련 패키지 설치 및 업데이트
+rpm -Uvh 패키지 파일명
+
+RPM 관련 패키지 삭제 
+rpm -e 패키지명
+
+YUM 명령어
+
+yum sub명령어
+
+install 패키지명 : 패키지 설치
+remove  패키지명 : 패키지 삭제
+update  패키지명 : 패키지 업데이트
+info    패키지명 : 패키지 정보확인
+list    : repository 의 패키지 리스트 출력
+provies file/dir : 해당 파일이나 디렉토리가 어떠한 패키지로 인해서 파생되었는지 알려줌( = rpm -qf 와 동일한 작용)
+repolist all : repository 점검
+
+groups list : 그룹 패키지 리스트 출력
+groups install 그룹 패키지명 : 그룹 패키지 설치
+groups remove  그룹 패키지명 : 그룹 패키지 삭제
+groups update  그룹 패키지명 : 그룹 패키지 업데이트
+groups info  그룹 패키지명 : 그룹 패키지 정보
+
+localinstall 패키지파일명 : 패키지파일을 yum으로 설치
+
+
+repository 파일 설정
+- 확장자가 반드시 .repo 이여만 함.
+
+- 내용 구성
+
+[ID명]
+name=repo명
+baseurl=http://주소
+        file://경로
+enabled=1/0 (1이면 활성화, 0이면 비활성화)
+gpgcheck=1/0 (1이면 라이센스 키가 있을 경우, 0이면 라이센크 키가 없는 경우)
+gpgkey=file//경로(gpgcheck=1 일 경우에만 작성)
+
+
+처음 설정으로 스냅샷
+
+DVD를 /media/cdrom으로 리마운트
+
+umount /dev/cdrom(/dev/sr0)
+
+mkdir /media/cdrom 
+
+mount /dev/cdrom /media/cdrom
+
+Repository 설정 - DVD 와 인터넷 (http://mirror.centos.org/centos/7/os/x86_64)
+
+cd /etc/yum.repos.d/
+mkdir ./backup
+mv Ce* backup
+
+vi test.repo
+
+[DVD]
+name=dvd
+baseurl=file:///dev/media
+enabled=1
+gpgcheck=0
+
+[Net]
+name=network
+baseurl=http://mirror.centos.org/centos/7/os/x86_64
+enabled=1
+gpgcheck=0
+
+:wq
+
+repo 활성화 상태 확인
+
+yum repolist all
+
+repo 중에서 dvd repo를 비활성화 시키시오.
+
+vi test.repo
+[DVD]의 enabled=1 => 0
+:wq
+
+repo 활성화 상태 확인
+
+yum repolist all
+
+저장소에 telnet에 대한 패키지가 어떠한 것이 있는지 확인해보시오.
+
+yum list | grep 'telnet'
+
+telnet 관련 패키지 설치
+
+yum install -y telnet*
+
+telnet.socket 시작 및 활성화
+
+systemctl start telnet.socket
+systemctl enable telnet.socket
+
+telnet 패키지의 설정 파일 및 문서(document) 확인
+
+rpm -qc telnet
+rpm -qd telnet
+
+rsyslog.conf 파일이 어떠한 패키지로 인해서 생성된 것인지 확인(2가지 방법)
+
+rpm -qf /etc/rsyslog.conf
+
+or
+
+yum provided /etc/rsyslog.conf
+
+위에 패키지의 정보를 확인 (2가지 방법)
+
+rpm -qi rsyslog
+
+or
+
+yum info rsyslog
+
+그룹 패키지 중에서 패키지명으로 SECURITY 가 들어간 패키지는?
+
+yum groups list | grep -i 'security'
+
+해당 그룹 패키지는 어떤 패키지들로 구성이 되어 있는가?
+
+yum groups info 'Security Tools'
+
+kernel 업데이트를 해보시오.
+
+yum update kernel
+ 
+zsh-xxxxxxxxxxxxxx.rpm 파일을 yum 명령어를 사용해서 설치하시오.
+
+yum localinstall zsh-xxxxxxxxxxxxxx.rpm
+
+===========================================================================================
+
+네트워크 관리 명령어 정리
+
+nmcli device : device 종류를 볼 수 있음.
+
+nmcli connection show : connection 종류를 볼 수 있음
+
+nmcli con show "con-name" : connection의 자세한 정보
+
+nmcli con add con-name "connection 이름" ifname 물리 장치 type ethernet autoconnetion yes => dhcp 설정
+
+nmcli con add con-name "connection 이름" ifname 물리 장치 type ethernet autoconnetion yes ip4 "xxx.xxx.xxx.xxx/xx" gw4 "xxx.xxx.xxx.xxx" => 고정 아이피 설정
+
+nmcli con reload
+
+nmcli con up "connection 이름" 
+
+dhcp => 고정 아이피로 수정 한다고 했을 때
+
+nmcli con mod dhcp(con-name) ipv4.addresses "할당 아이피주소/프리픽스" ipv4.gateway "게이트웨이주소" ipv4.method manual connection.id 바꿀 con-name connection.interface-name (new device)
+
+--------------------------------------------------------------------------
+
+네트워크 실습
+
+초기 설정으로 초기화
+
+현재 IP 주소를  2가지 방법으로 확인해보시오.
+
+ifconfig
+
+ip addr
+
+add로 연결 생성
+
+dhcp => 유동IP
+
+nmcli con add con-name dhcp ifname ens33 type ethernet autoconnect yes(default)
+
+nmcli con reload
+
+static1 => ip : 192.168.100.200/24, gw : 192.168.100.2 
+
+nmcli con add con-name static1 ifname ens33 type ethernet autoconnect yes ip4 "192.168.100.200/24" gw4 "192.168.100.2"
+
+nmcli con reload
+
+modify 로 연결 수정
+
+- dhcp 연결을 static 으로 이름 변경 후 
+- 192.168.100.100으로 고정 아이피 설정
+- 192.168.100.30 주소 추가
+- 8.8.8.8 dns 설정 
+- 자동 연결 안되도록 수정 
+- method maual 로 설정 후 네트워크 연결 확인
+
+nmcli con mod dhcp connection.id static ipv4.addresses "192.168.100.100/24" +ipv4.addresses "192.168.100.30/24" ipv4.gateway "192.168.100.2" ipv4.dns "8.8.8.8" ipv4.method  manual connection.autoconnect no
+
+nmcli con reload
+
+192.168.100.100 주소를 제거하시오.
+
+nmcli con mod static -ipv4.address "192.168.100.100/24"
+
+hostname을 bitecstudy으로 설정
+
+hostnamectl set-hostname bitecstudy
+
+================================================================================================================================================================
+
+
+ssh
+
+키기반 인증 방식
+
+클라이언트 사용자
+
+ssh-keygen
+=> 키 기반 인증을 위한 공개키와 개인키 생성
+
+ssh-copy-id id@server ip address 
+=> 클라이언트가 생성한 공개키를 서버에 등록하게 됩니다.
+
+클라이언트 확인
+
+서버 확인
+
+
+실습은 
+
+client에서 user01 생성해서 server-student로 접속하는데 password 없이 로그인 되도록 하시오
+
+client ip : 192.168.100.200/24
+server ip : 192.168.100.100/24
+
+진행 순서
+
+1. client 컴퓨터
+
+	user01,user02  생성
+
+	useradd user01
+	passwd user01
+
+	useradd user02
+	passwd user02
+
+2. server 컴퓨터
+
+	useradd server-student 생성
+	passwd server-student
+
+3. client 컴퓨터
+
+	su - user01
+
+	개인키, 공개키 생성
+
+	ssh-keygen
+
+	공개키를 server-student에게 전송
+
+	ssh-copy-id server-student@192.168.100.100
+
+	주의사항 : server의 /etc/ssh/sshd_config의 PasswordAuthentication 설정이 no로 되어 있으면 등록할 수 없음
+
+4. server 컴퓨터
+
+	client의 user01이 공개키 등록후 /etc/ssh/sshd_config의 PasswordAuthentication 설정을 no 진행
+
+5. client 컴퓨터
+
+
+	user01 계정전환
+
+	ssh server-student@192.168.100.100 =>  접속 됨
+
+	exit
+
+	user02 계정전환
+
+	ssh server-student@192.168.100.100 =>  접속 안됨

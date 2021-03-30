@@ -1,0 +1,489 @@
+﻿초기화
+
+2G,3G,4G 주파티션 생성
+
+2G,2G 확장 파티션 생성
+
+/ptest/ /stest/ /home1/ 생성
+
+mkdir /{ptest,stest,home1}
+
+2G(xfs)는 /ptest에 마운트
+
+mkfs.xfs /dev/sdb1
+
+mount /dev/sdb1 /ptest
+
+3G(ext4)는 /stest에 마운트
+
+mkfs.ext4 /dev/sdb2
+
+mount /dev/sdb2 /stest
+
+
+4G(xfs)는 /home1에 마운트 영구 마운트 설정
+
+mkfs.xfs /dev/sdb3
+
+mount /dev/sdb3 /home1
+
+lsblk
+df -Th
+
+새로 생성 되는 사용자들이 /home1 에 생성 되도록 설정
+
+useradd -D -b /home1
+
+생성
+사용자   uid    gid   comment   home directory  shell
+user01  1001   1001  user1     /home1/user01   /bin/bash
+
+useradd -c user1 user01
+
+user02  2000   1000            /home/user2     /bin/csh
+
+useradd -u 2000 -g 1000 -d /home/user2 -s /bin/csh user02
+
+user03  3000   3000  user3     /home/user03    /bin/sh
+
+useradd -u 3000 -c user3  -d /home/user03  -s /bin/sh user03
+
+user04  3001   1000            /home1/user04   /bin/bash
+
+useradd -g 1000 user04
+
+수정
+사용자   uid    gid   comment   home directory  shell
+user01  1001   1001            /home1/user01    /bin/bash
+
+usermod -c "" user01
+
+user02  1002   1002            /home1/user02    /bin/bash
+
+groupadd 1002 user02
+usermod -u 1002 -g 1002 -md /home1/user02 -s /bin/bash user02
+
+user03  1003   1003           /home1/user03    /bin/bash
+
+usermod -u 1003 -md /home1/user03 -s /bin/bash
+groupmod -g 1003 user03
+
+user04  1004   1004            /home1/user04    /bin/bash
+
+groupadd 1004 user04
+usermod -u 1004 -g 1004 user04
+
+user03은 sudo 명령어를 사용할 수 있도록 설정
+
+usermod -G wheel user03
+
+default 값을 vi 명령어로 HOME=/home로 변경하시오.
+
+vi /etc/default/useradd
+
+HOME=/home1 => HOME=/home
+:wq
+
+aclgroup 5000 생성
+
+groupadd -g 5000 aclgroup
+
+aclgroup 구성원으로 user02,user04 후에 확인
+
+usermod -G aclgroup user02
+usermod -G 5000 user04
+
+grep 'aclgroup' /etc/group
+id user02
+id user04
+
+/ptest에 모든 권한을 다 주고 만들어지는 파일이나 디렉토리가 모두 aclgroup의 소유가 되도록 설정
+
+chown :aclgroup /ptest
+chmod 2777 /ptest
+
+/ptest/test 파일을 생성 후에 모든 권한 삭제 후에 일반 사용자들이 test 파일을 vi 편집기로 편집할 수 있도록 만드시오.
+
+touch /ptest/test
+chmod 000 /ptest/test
+
+chmod u+s /bin/vim
+
+/stest에 user01을 제외한 모든 사용자가 모든 권한을 사용할 수 있도록 설정
+그리고 /stest에 만들어지는 파일이나 디렉토리에 user03이 접근할 수 없도록 설정
+
+chmod 777 /stest
+setfacl -m u:user01:0,d:u:user03:0 /stest
+
+mount 해제를 하고 사용자가 홈디렉토리를 사용할 수 있는지 확인해보시오.
+
+umount -a
+
+su - user01
+
+로그인은 됨
+하지만 홈디렉토리는 사용할 수 없음.
+
+확장 파티션 2G 2개를 swap으로 마운트 하시오.
+
+mkswap /dev/sdb5
+mkswap /dev/sdb6
+
+swapon /dev/sdb[56]
+
+/dev/sdb6은 swap으로 영구 마운트가 되도록 설정.
+
+vi /etc/fstab
+G
+o
+/dev/sdb6   swap   swap defaults 0  0
+:wq
+
+-----------------------------------------------------------------------------------------------
+LVM 확장 축소 실습
+
+초기 설정으로 스냅샷
+전원 on 전에 디스크 10G,10G,20G,20G 추가
+
+/dev/sdb:10G
+/dev/sdc:10G
+/dev/sdd:20G
+/dev/sde:20G
+
+10G,20G 를 볼륨그룹으로 생성 (pe:8M)
+
+vgcreate vg0 /dev/sd[bd] -s 8M
+
+논리볼륨 lv01:5G(-l),lv02:10G(-L),lv03:5G(-l) 생성
+
+lvcreate vg0 -n lv01 -l 640
+lvcreate -L 10G -n lv02 vg0
+lvcreate vg0 -n lv03 -l 640
+
+lv01은 swap으로 자동 마운트 설정하고 수동 마운트 할 것.
+
+mkswap /dev/vg0/lv01
+
+vi /etc/fstab
+
+G
+o
+/dev/vg0/lv01    swap swap defaults 0  0
+:wq
+
+swapon /dev/vg0/lv01
+
+/media/disk(1,2) 디렉토리 생성
+
+mkdir /media/disk{1,2}
+
+lv02는 /media/disk1/에 자동 마운트 설정(uuid)하고 수동마운트 (xfs)
+
+mkfs -t xfs /dev/vg0/lv02
+blkid
+/dev/vg0/lv02 의 UUID 복사
+vi /etc/fstab
+G
+o
+/dev/vg0/lv02의 UUID  /media/disk1  xfs  defaults  1  1
+:wq
+
+lv03은 /media/disk2/에 자동 마운트 설정(논리볼륨명)하고 수동마운트 (ext4)
+
+mkfs.ext4 /dev/mapper/vg0-lv03
+
+vi /etc/fstab
+
+G
+o
+/dev/mapper/vg0-lv03   /media/disk3   ext4   defaults  1  1
+:wq
+
+디스크 10G를 볼륨그룹에 추가 할 것
+
+vgextend  vg0  /dev/sdc
+
+lv02 용량을 15G로 확장할 것 (+ 옵션을 사용해서)
+
+lvextend -L +5G /dev/vg0/lv02  -r
+
+or
+
+-r옵션을 수행하지 않았을 경우
+xfs  파일 시스템이기 때문에
+xfs_growfs /media/disk1 수행
+
+lv03 용량을 7G로 확장할 것 (+ 옵션을 사용하지 말 것)
+
+lvextend -L 7G /dev/mapper/vg0-lv03  -r
+
+or
+
+-r옵션을 수행하지 않았을 경우
+ext4  파일 시스템이기 때문에
+resize2fs /dev/mapper/vg0-lv03 수행
+
+10G 디스크를 볼륨 그룹에서 제거 해보시오. 
+
+vgreduce vg0 /dev/sdb
+에러 : 사용중
+pvmove /dev/sdb
+에러 : 용량부족
+vgextend vg0 /dev/sde
+pvmove /dev/sdb
+vgreduce vg0 /dev/sdb
+
+-----------------------------------------------------------------------
+systemd unit 의 종류 
+
+사이트 링크 : https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files
+
+systemctl sub-command unit
+
+status : 상태확인
+start : 시작
+stop : 종료
+restart : 재시작
+reload : 재설정
+enable : 활성화
+disable : 비활성화
+mask : 마스크 설정
+unmansk : 마스크 해제
+
+
+
+systemctl 실습
+
+httpd 서비스 상태 확인
+
+systemctl status httpd
+
+httpd 서비스 시작
+
+systemctl start httpd
+systemctl status httpd
+
+httpd 서비스 활성화
+
+systemctl enable httpd
+systemctl status httpd
+
+httpd 서비스 중지
+
+systemctl stop httpd
+systemctl status httpd
+
+httpd 서비스 비활성화
+
+systemctl disable httpd
+systemctl status httpd
+
+httpd 서비스 잠금
+
+systemctl mask httpd
+systemctl status httpd
+systemctl start httpd
+에러 : 현재는 마스크 상태입니다.
+
+httpd 서비스 잠금해제
+
+systemctl unmask httpd
+systemctl status httpd
+
+httpd 서비스 시작 후에 pid 확인
+
+systemctl start httpd
+systemctl status httpd
+
+httpd 서비스 리로드 후 pid 확인
+
+systemctl reload httpd
+systemctl status httpd => PID 변경 X
+
+httpd 서비스 재시작 후 pid 확인
+
+systemctl restart httpd
+systemctl status httpd => PID 변경 확인
+
+====================================================================================
+
+로그관리
+
+로그
+- 이벤트 기록(사건 사고)
+	우선순위에 맞는 기록
+-보안적 측면 : 침입자에대한 추적
+-운영적 측면 : 시스템의 장애를 확인할수 있다.
+
+중요한 이유
+- 이슈 발생시에 해당 시간에 일어났었던 일에 파악하기 위한 첫번째 수단
+
+로그가 저장되는 위치 : /var/log
+
+로그를 관장한 서비스 : systemd-journald, rsyslogd 
+
+-> systemd-journald : 로그를 수집하는 역활 (/run/)
+-> rsyslogd : 로그를 저장하는 역활 (/var/)
+
+rsyslong 서비스
+
+/var/messages : 대부분의 로그기록(단 인증,메일,반복예약,부팅 그리고 디버그 제외)
+/var/secure : 인증에 관련된 로그
+/var/maillog : 메일에 관련된 로그
+/var/cron : 반복적인 예약에 관련된 로그
+/var/boot.log : 부팅에 관련된 로그
+
+facility(기능).priority(우선순위)
+
+facility
+authpriv : 인증
+auth,security : login
+cron : cron,at 과 같은 스케쥴링
+daemon : telnet,ftp 와 같은 데몬서비스
+kern : 커널
+mail : 메일
+local1-8 : 부팅
+lpr : 프린트
+mark : syslog에 의해 만들어지는 날짜유형
+user : 사용자
+
+priority
+
+0:emerg
+1:alert
+2:critical
+3:error
+4:warning
+5:notice
+6:info
+7:debug
+
+rsyslog.conf 설정 변경후 반영
+
+systemctl restart rsyslog.service
+
+실시간 로그 모니터링
+
+tail -f /var/log/로그파일
+
+로그 메세지 발생
+
+logger -p 기능.우선순위  "메세지"
+
+systemd-journald 서비스
+
+journalctl : 확인
+-> 옵션 : 
+	- n 숫자 : 최근 내역서 숫자 만큼 출력
+	- p 우선순위 : 해당 우선순위 이상으로 출력
+	- f : 실시간으로 모니터링
+	--since yyyy-mm-dd : 해당 날짜부터 현재까지 출력
+	--since yyyy-mm-dd --until yyyy-mm-dd : since 부터 until까지 출력
+
+/run/log/journal  영구저장
+
+mkdir /var/log/journal
+chmod g+s /var/log/journal
+chown :systemd-journal /var/log/journal
+systemctl restart systemd-journald.service
+
+
+log 실습
+
+rsyslog.conf 파일을 수정해서 cron.err 이상 내용만 /var/log/cron1 파일에 저장되도록 설정하시오.
+
+logger 명령어를 통해서 cron.info => cronlog1 와 cron.crit => cronlog2 의 메세지를 발생시켜서 /var/log/cron 파일과 /var/log/cron1 파일을 확인해보시오.
+
+journal 내용을 영구 저장하도록 설정하시오.
+
+=========================================================================================================
+boot 프로세스
+
+1) BIOS 나 UEFI가 POST 단계를 실행
+2) 부트로더를 메모리에 적재 -> GRUB2(커널선택)
+/boot/grub2/grub.cfg
+3) 커널을 메모리에 적재하고 initramfs의 압축을 해제(img파일)
+/sysroot 부팅관련된 파일들이 존재. read only
+3.5) 부팅이 완료되면 피벗이 일어난다. /sysroot(read only) -> / (read, write)
+4)systemd PID 1번으로 할당 -> 타겟설정.(멀티유저 or 그래픽컬)
+
+----------------------------------------------
+
+Emergency Mode(Target)
+rd.break -> systemd.unit=emergency.target
+
+-------------------------------------------
+systemd
+init과의 차이점.
+
+유닛을 관리하기위한 명령어
+systemctl을 통해서 관리된다.
+
+systemctl의 자주쓰는 subcommand
+명령어 	 subcommand (옵션이랑은 다르다.)
+systemctl start 유닛을 시작
+		  status 상태를 확인
+		  stop 유닛을 중지
+		  restart 유닛을 재시작
+		  reload 설정파일을 다시 읽어옴
+		  enable 활성화(부팅시에 자동실행 -> 심볼릭 링크생성)
+		  disable 비활성화 (심볼릭 링크를 제거)
+		  mask (특정유닛을 실행하지 못하게 만듦 /dev/null 심볼릭링크 생성)
+		  unmask (마스크 해제 /dev/null 심볼릭링크 제거)
+
+타겟
+who -r : 현재 사용하는 타켓유닛의 런레벨 확인가능
+systemctl get-default : default.target 에 현재 링크되어있는 타겟 확인가능
+systemctl set-default <target> : default.target으로 링크파일 연결
+systemctl isolate <target> : 런타임 상태에서 환경을 변경
+
+
+root 비번 변경
+
+커널선택 화면에서 아무키 눌러서 카운트 해제
+원하는 커널에서 'e'눌러서 grub 진입
+linux16 라인 끝에 rd.break 입력 후 ctrl+x
+mount -o rw,remount /sysroot
+chroot /sysroot
+passwd
+touch /.autorelabel
+ctrl+d
+ctrl+d
+
+부트로더 커널 이미지 시간 
+
+vi /etc/default/grub
+
+GRUB_TIMEOUT=5 => 5를 다른 숫자로
+:wq
+
+
+부트로더 ID 및 PW 설정
+
+vi /etc/grub.d/00_header
+
+G를 눌러 제일 마지막 부분으로 이동
+
+o를 눌러 편집모드로 들어가서 해당 부분 작성
+
+cat << EOF
+set superusers='ID명'
+password ID명 PW
+EOF
+:wq
+
+설정내용 부트로더 인식
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+reboot
+
+
+default-target 확인
+
+default-target 변경
+
+target 전환
+
+
+==========================================================================

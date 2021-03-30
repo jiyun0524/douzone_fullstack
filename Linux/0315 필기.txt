@@ -1,0 +1,227 @@
+p3 이름 / 비번 / UID / GID / 사용자 경로 / 로그인 쉘
+!! -> user가 아직 활성화되지 않았을 때. pw를 지정해줘야 활성화됨
+
+p17 보조그룹 : 사용자가 직접 수동으로 생성 하는 것
+ex. wheel:x:100:centos
+=> centos가 보조그룹. 없는 것도 있다.
+
+p7 일반사용자 : 1000번 이후로 UID 할당됨
+
+현재 디렉토리의 명령어를 실행하고싶을때 : ./
+
+P9 명령어 사용의 su와 su - 의 차이가 중요
+사용자 전환 후 echo $PATH 해보면 차이가 보임 
+sudo를 쓰고 쓰면 그 순간에는 root가 되는것임
+centos의 계정으로 touch filea, sudo touch fileb 하면
+filea : centos꺼 fileb : root 꺼
+
+p11 useradd는 디폴트값이 정해져있다.
+HOME : 계정이 생성 될 위치. /home을 /home1로 바꿔도되지만 그 파일이 존재해야함
+SHELL : 로그인 쉘을 뭘로 하겠다 표시하는 곳 
+CERATE_MAIL_SPOOL : 메일을 만들거니?
+
+@ 사용자 추가
+useradd [option] user명
+* option
+-u : uid 설정
+-g : gid 설정(단, 존재하는 그룹이어야 함)
+-c : 코멘트 작성
+-d : 홈 디렉토리 경로 지정
+-s : 로그인  쉘 지정
+-G : 보조 그룹 지정
+-b : 베이스 홈 변경
+-m(make의 의미) : /etc/login.defs 파일의 설정 중 홈 디렉토리 생성이 'NO'로 돼 있을 경우, 홈 디렉토리 생성 옵션
+-D : default 값 확인 및 수정
+유저생성시 UID 설정하면 GID는 생략해도 UID 를 따라서 값이 자동으로 책정됨
+
+@ 사용자 모드 변경
+usermod option 계정명
+option
+대부분의 useradd 옵션을 사용할 수 있음
+-a : 보조그룹 추가('-aG'라고 보통 쓴다 / '-G'만 사용하게 되면 보조그룹 수정이 된다. 그러므로 추가를 위해서는 -aG를 써 주어야함)
+-m(move의 의미) : useradd의 -m과 다른개념!!!!!!!
+-L : 사용자 계정 잠금 user01::!$..로 진행됨 (! : 계정잠겼다는 의미)
+-U : 계정 잠금 해제 
+-l :  계정명 변경
+
+@ 사용자 삭제
+userdel 사용자명
+=> 삭제를 했는데 ls /home 하면 남아있음 ㄷㄷ
+=> 옵션으로 -r 을 붙혀줘야 홈 디렉토리와 메일이 완전 삭제됨
+
+@ 그룹 추가
+groupadd [option] 그룹명
+-g : GID 설정
+-o : GID 중복 설정 (참고만)
+
+@ 그룹 모드 변경
+groupmod [option] 그룹명
+-g : GID 수정
+-o : 중복설정 
+-n : 그룹명 변경
+
+@ 그룹 삭제 => 주 그룹이 아닌것만 삭제가능
+groupdel 그룹명
+
+@ 사용자 계정 관리
+chage
+-l(소문자 L) 계정명 : 계정의 암호속성 확인
+-m day : 계정 변경 최소기간
+-M day : 계정 암호 최대 사용기간
+-W day : 계정 암호 변경 공지 기간
+-I(대문자 i) day : 계정 암호 최대 사용기간 이후에 유예기간
+-E day : 계정 만료 기간
+-d day : 암호 변경 기간
+
+p21 확장권한
+setuid : 파일을 소유주의 권한으로 실행시킨다
+
+p22 sticky bit : root 는 제외
+파일 자체의 권한을 따져서 명령어를 조절해야함
+
+p24 ACL
+ACL => 소유그룹, 특정그룹에만 영향을 끼치고 사용자랑 기타사용자에게는 영향을 미치지 않음
+mask : 각 그룹이 가질수 있는 최대 영역을 의미
+p26 ACL 항목형식
+=====================================
+사용자 생성 실습
+
+스냅샷을 초기설정으로 바꾸고
+
+사용자   uid   gid  보조그룹     comment  home          shell   
+user01  1001  10                      /home/user01  /bin/bash
+
+user02  2000  2000 wheel      user    /home/user    /bin/sh
+
+user03  3000  1000                    /home/user03  /bin/csh
+
+user04  4000  4000 10	      guser   /home/user04  /bin/bash
+
+[root@localhost ~]# useradd (-u 1001(기본디폴트값이라 안적어줘도된다함)) -g 10 user01
+[root@localhost ~]# useradd -u 2000 -G wheel -c user -d /home/user user02 
+[root@localhost ~]# useradd -u 3000 -g 1000 -s bin/csh user03
+[root@localhost ~]# useradd -u 4000 -G 10 -c guser user04
+
+default 값 수정
+
+/bin/bash => /bin/sh 로 수정 => vi 편집기로
+[root@localhost ~]# vi /etc/default/useradd
+
+/home    => /home1 로 수정 => 명령어를 통해서 
+[root@localhost ~]# useradd -D -b /home1
+
+testuser01 생성해서 확인해볼 것
+[root@localhost ~]# useradd testuser01
+
+===============================
+사용자 수정 실습
+
+사용자   uid   gid  보조그룹     comment  home          shell   
+user01  1001  1000 wheel               /home/user01 /bin/bash
+
+user02  1002  2000 wheel,adm  user02   /home/user02 /bin/bash
+
+user03  1003  1000 10                  /home/user03 /bin/bash
+
+user04  1004  4000 10, 2000   guser    /home/user04 /bin/bash
+
+[root@localhost ~]# usermod -g 1000 -G wheel user01
+[root@localhost ~]# usermod -u 1002 -aG adm -c user02 -md /home/use02 user02
+[root@localhost ~]# usermod -u 1003 -G 10 -s /bin/bash user03
+[root@localhost ~]# usermod -u 1004 -aG 2000 user04
+
+testuser01 수정
+testuser01 => user05  
+/home1/testuer01 => /home/user05
+/bin/sh => /bin/bash
+
+[root@localhost ~]# usermod -l user05 -md /home/user05 -s /bin/bash testuser01
+
+=================================
+그룹 관리
+
+groupadd [option] 그룹명
+groupmod [option] 그룹명
+groupdel 그룹명
+
+group 실습
+
+id user01 => uid=1001(user01) gid=1001(user01)
+[root@localhost ~]# groupadd -g 1001 user01
+[root@localhost ~]# usermod -g 1001 user01
+
+id user02 => uid=1002(user02) gid=1002(user02)
+[root@localhost ~]# groupmod -g 1002 user02
+
+id user03 => uid=1003(user03) gid=1003(user03)
+[root@localhost ~]# groupadd -g 1003 user03
+[root@localhost ~]# usermod -g 1003 user03
+
+id user04 => uid=1004(user04) gid=1004(user04)
+[root@localhost ~]# groupmod -g 1004 user04
+
+=========================================
+암호속성 변경
+
+user01 의 
+minum date 10
+maximum date 100
+warning date 10
+
+[root@localhost ~]# chage -m 10 -M 100 -W 10 user01
+
+user02이 접속할때 암호변경을 하도록 설정
+[root@localhost ~]# chage -d 0 user02
+
+user01 의 홈디렉토리를 삭제하고 그래픽 모드에서 로그인이 가능하도록 만드시오.
+[root@localhost ~]# cp -r /etc/skel /home/user01
+[root@localhost ~]# chmod 700 /home/user01
+[root@localhost ~]# chown -R user01:user01 /home/user01
+
+======================================
+확장권한 실습
+
+ptest 디렉토리 생성
+
+/ptest에 모든 권한을 rwx로 주고 setgid 권한도 줄 것
+
+user01로 사용자 전환
+
+/ptest 안에 파일 file01 과 디렉토리 dir01 생성 
+
+file01과 dir01 소유권 확인 및 dir01의 퍼미션 확인
+
+root로 사용자 전환
+
+dir01의 소유권을 user01로 바꾸고 소유그룹을 student로 변경 하고 sticky bit 권한과 모든 사용자에게 rwx 권한을 줄것 
+
+file01에 setuid 권한을 줄 것
+
+user02로 사용자 전환
+
+./dir01 안에 파일 file02와 디렉토리 dir02 생성
+
+file02 와 dir02의 소유권 확인
+
+user03 사용자 생성
+
+user03로 사용자 전환 /ptest/dir01/file02 삭제 해볼 것
+
+setgid 권한이 주어진 파일이나 디렉토리를 검색하는 방법은?
+
+=======================================
+실습
+
+aclgroup 그룹 생성
+
+user02를 aclgroup 구성원으로 넣을 것(기본 그룹으로 바꾸는 것 아님)
+
+/ptest 모든 내용 삭제하고 777로 권한변경
+
+/ptest 에 user03 은 접근 할 수 없도록 설정
+
+/ptest 에 파일 aclfile01 과 디렉토리 acldir01 생성
+
+aclfile01은 user01 만이 읽기, 쓰기, 실행 가능하도록 설정하고 나머지는 읽기, 쓰기만 실행가능하도록 
+
+acldir01는 aclgroup 만이 읽기 쓰기가능하고 나머지는 읽기만 가능하도록 설정 

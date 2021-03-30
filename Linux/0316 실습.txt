@@ -1,0 +1,579 @@
+﻿초기화로 스냅샷 돌리고 하세요.
+
+root 접속
+
+centos 사용자 전환
+
+su - centos
+
+sudo -i로 root 재전환 후 사용자 생성
+
+sudo -i
+
+default 값을 
+home1, /bin/sh 로 설정 
+
+useradd -D -b /home1 -s /bin/sh
+useradd -D
+
+mkdir /home1
+
+사용자      uid	gid   보조그룹    home	          shell
+user01     1001	1001  1000	/home/user01(-b)  /bin/bash
+
+useradd -G 1000 -b /home -s /bin/bash user01
+
+user02     2000	1000  10	/home/user2       /bin/bash
+
+useradd -u 2000 -g 1000 -G 10 -d /home/user2  -s /bin/bash user02
+
+user03     2001	2001  wheel	/home/user3       /bin/bash
+
+useradd -G wheel -d /home/user3 -s /bin/bash user03
+
+testuser01 2002	1000            /home1/testuser01 /bin/sh
+
+useradd -g 1000 testuser01
+
+default 값
+home, /bin/bash 로 변경
+
+vi /etc/default/useradd
+
+/home1 => /home
+/bin/sh => /bin/bash
+
+user02의 홈디렉토리를 /home/user02로 변경
+
+usermod -md /home/user02 user02
+
+user03의 홈디렉토리를 삭제 후에 다시 만들 것
+
+rm -rf /home/user03
+cp -r /etc/skel /home/user03
+chown -R user03:user03 /home/user03
+chmod 700 /home/user03
+
+testuser01의 아이디명을 user04로 변경, 코멘트 user4로 변경, 홈디렉토리 /home/user04로 변경, 쉘을 /bin/bash로 변경 	
+
+usermod -l user04 -c user4 -md /home/user04 -s /bin/bash testuser01
+
+--------------------------------------------------------
+
+group 생성
+
+그룹명		gid
+newgroup01 	4000
+
+groupadd -g 4000 newgroup01
+
+newgroup02	10
+
+groupadd -og 10 newgroup02
+
+newgroup01을 newgroup 으로 이름 변경하고, gid를 1000으로 변경
+
+groupmod -n newgroup -og 1000 newgroup01
+
+newgroup02를 newgroup01 로 이름 변경, gid를 4000 으로 변경
+
+groupmod -n newgroup01 -g 4000 newgroup02
+
+user01을 newgroup의 구성원으로 
+
+usermod -G newgroup user01
+
+user02를 newgroup01의 구성원으로
+
+usermod -G newgroup01 user02
+
+그룹 구성원 확인
+
+grep 'new' /etc/group
+
+newgroup 과 newgroup01 삭제
+
+groupdel newgroup
+에러 : centos의 주그룹으로 명시
+groupmod -g 5000 newgroup
+groupdel newgroup
+에러 : centos의 주그룹으로 명시
+id centos => 주그룹이 newgroup으로 되어 있음
+usermod -g 1000 centos
+groupdel newgroup
+삭제
+
+groupdel newgroup01
+삭제
+
+aclgroup 생성
+
+groupadd aclgroup
+-------------------------------------------------------
+
+확장 권한
+
+일반사용자가 cat 명령어를 통해서 /etc/shadow 내용을 볼 수 있도록 설정하시오.(sudo 명령어 사용 X)
+
+chmod u+s /bin/cat
+
+/ptest 디렉토리를 만들고 안에 만들어지는 파일들의 소유그룹이 user02가 되도록 설정하시오.
+
+mkdir /ptest
+chown :user02 /ptest
+chmod 2777 /ptest or chmod a=rwx,g+s /ptest
+
+/ptest/dir01안에 만들어지는 파일이나 디렉토리가 만든 파일 생성자나 root만이 삭제할 수 있도록 설정하시오
+
+mkdir -m 777 /ptest/dir01
+chmod o+t /ptest/dir01 or chmod +1000 /ptest/dir01
+
+---------------------------------------------------------
+
+acl 설정
+
+/ptest 777로 권한 재설정
+
+chmod -R g-s /ptest
+or
+chmod -R -2000 /ptest
+
+
+/ptest 안에 dir02 디렉토리 생성
+
+mkdir /ptest/dir02
+
+dir02 디렉토리에 user03만 들어올 수 없도록 설정
+
+setfacl -m u:user03:0 /ptest/dir02
+
+dir02 안에  file01 생성
+
+touch /ptest/dir02/file01
+
+file01 에  user01은 읽기 쓰기가 가능하고 aclgroup 구성원은 읽기만 가능하도록 설정
+
+setfacl -m u:user01:6,g:aclgroup:4 /ptest/dir02/file01
+
+dir02 안에 dir03 디렉토리를 만들고 user01은 읽기만 가능하고 aclgroup은 읽기 쓰기가 가능하도록 설정
+
+mkdir /ptest/dir02/dir03
+setfacl -m u:user01:5,g:aclgroup:7 /ptest/dir02/dir03
+
+dir02 안에 dir04 디렉토리를 만들고 dir04은 centos만 읽기 쓰기가 가능하고 나머지는 못들어오도록 설정
+
+mkdir /ptest/dir02/dir04
+
+서순이 중요함
+
+chmod 000 /ptest/dir02/dir04
+setfacl -m u:centos:7 /ptest/dir02/dir04
+
+잘못설정한 예
+
+setfacl -m u:centos:7 /ptest/dir02/dir04
+chmod 000 /ptest/dir02/dir04
+getfacl /ptest/dir02/dir04
+이렇게 설정하면 mask 값이 0가 됨으로 centos 또한 들어오지 못하게 됨
+
+수정 방법
+
+setfacl -m m:7,g::0 /ptest/dir02/dir04
+getfacl /ptest/dir02/dir04
+
+
+----------------------------------------------------------------------------------------------
+
+
+디스크 구조 및 파일 시스템 실습
+
+파티션 생성
+
+대상:/dev/sdb
+파티션 생성
+주 파티션 2G 2G 2G
+확장 파티션 2G 2G 2G 2G 
+
+파티션 1~3 ext4로 포맷
+
+mkfs -t ext4 /dev/sdb1
+mkfs -t ext4 /dev/sdb2
+mkfs -t ext4 /dev/sdb3
+
+파티션 5~8 xfs로 포맷
+
+mkfs.xfs /dev/sdb5
+mkfs.xfs /dev/sdb6
+mkfs.xfs /dev/sdb7
+mkfs.xfs /dev/sdb8
+
+blkid
+
+/mnt/disk1~3 에 파티션 1~3 을 각각 수동 마운트
+
+mkdir /mnt/disk{1..3}
+
+mount /dev/sdb1 /mnt/disk1
+mount /dev/sdb2 /mnt/disk2
+mount /dev/sdb3 /mnt/disk3
+
+마운트 및 파일시스템 확인
+
+lsblk
+df -Th
+
+한꺼번에 마운트 해제
+
+umount -a
+
+파티션 1~3을 xfs로 재 포맷 
+
+mkfs.xfs -f /dev/sdb1
+mkfs.xfs -f /dev/sdb2
+mkfs.xfs -f /dev/sdb3
+
+자동 마운트
+
+sdb1  /mnt/disk1     =>   UUID로 장치명을 지정하시오.
+sdb2  /mnt/disk2
+sdb3  /mnt/disk3
+
+blkid 
+
+/dev/sdb1 의 UUID 복사
+
+vi /etc/fstab
+
+G
+o
+
+장치명            마운트포인트    파일시스템    옵션     덤프여부   부팅순서
+/dev/sdb1의 UUID  /mnt/disk1      xfs           defaults 1          1
+/dev/sdb2         /mnt/disk2      xfs           defaults 1          1
+/dev/sdb3         /mnt/disk3      xfs           defaults 1          1
+
+:wq
+
+
+재부팅 하지 말고 자동마운트 설정된 마운트들을 모두 마운트
+
+mount -a
+
+/dev/sdb의 모든 파티션 삭제
+
+vi /etc/fstab
+
+설정 삭제
+
+:wq
+
+umount -a
+
+fdisk /dev/sdb
+
+파티션 삭제
+
+w
+
+partprobe /dev/sdb
+
+-------------------------------------------------
+
+스왑메모리
+
+
+스왑공간 확인         : free
+
+스왑파일시스템        : mkswap 파티션명
+
+수동 스왑 마운트      : swapon  파티션명
+
+수동 스왑 마운트 해제 : swapoff  파티션명
+
+설정된 스왑 마운트    : swapon -a
+
+모든 스왑 마운트 해제 : swapoff -a
+
+-------------------------------------
+
+스왑 실습
+
+대상:/dev/sdb
+파티션 생성
+주파티션
+1G, 2G, 3G 시스템 네임 swap으로 설정
+
+파티션 생성
+
+t
+hex code : 82
+w
+
+partprobe /dev/sdb
+
+스왑 파일시스템으로 포맷
+
+mkswap /dev/sdb1
+mkswap /dev/sdb2
+mkswap /dev/sdb3
+
+blkid
+
+스왑 용량 확인
+
+free
+
+swapon -s
+
+파티션 1을 수동 스왑 마운트
+
+swapon /dev/sdb1
+free
+swapon -s
+
+파티션 2을 자동 스왑 마운트 설정 (UUID로)
+
+blkid
+
+/dev/sdb2 UUID  복사
+
+파티션 3을 자동 스왑 마운트 설정 (파티션명으로)
+
+vi /etc/fstab
+
+G
+o
+/dev/sdb2의 UUID swap  swap   defaults   0 0
+/dev/sdb3        swap  swap   defaults   0 0
+:wq
+
+스왑 용량 확인
+
+free
+swapon -s
+
+자동마운트 설정된 것 모두 마운트(재부팅하지 말고)
+
+swapon -a
+
+스왑 용량 확인
+
+free
+swapon -s
+
+모든 스왑 마운트 해제
+
+swapoff -a
+
+스왑 용량 확인
+
+free
+swapon -s
+
+설정된 스왑 마운트 다시 재 마운트
+
+swapon -a
+
+스왑 용량 확인
+
+free
+swapon -s
+/dev/sdb1은 마운트가 되어있지 않음
+
+----------------------------------------------------------------------------------
+
+물리볼륨 생성 : pvcreate 장치명1....
+볼륨그룹 생성 : vgcreate vg명 pv명... -s pe 사이즈
+논리볼륨 생성 : lvcreate vg명 -n lv명 -L 실제 크기 or -l le 갯수
+
+물리볼륨 삭제 : pvremove pv명...
+볼륨그룹 삭제 : vgremove vg명
+논리볼륨 삭제 : lvremove lv경로
+
+LVM 실습
+초기화
+/dev/sdb1~4 모두 물리 볼륨으로 생성
+4G,4G,6G,6G 시스템 네임 lvm
+
+pvcreate /dev/sdb[1-4]
+
+/dev/sdb2,4 볼륨 그룹 생성 (pe 단위를 8M로) 
+
+vgcreate vg0 /dev/sdb[24] -s 8M
+
+lv01 2G (-L 옵션을 사용해서) 
+
+lvcreate vg0 -L 2G -n lv01
+
+lv02 4G (-l  옵션을 사용해서)
+
+lvcreate vg0 -l 512 -n lv02
+
+lv01 은 /mnt/disk1로 마운트 (파일시스템 xfs)
+
+mkdir /mnt/disk{1,2,3}
+
+mkfs -t xfs /dev/vg0/lv01
+
+mount /dev/vg0/lv01 /mnt/disk1
+
+lv02 는 /mnt/disk2로 마운트 (파일시스템 ext4)
+
+mkfs.ext4 /dev/mapper/vg0-lv02
+
+lv03 생성 - 나머지 용량 모두 사용해서 생성 (파일시스템 xfs)
+
+lvcreate vg0 -l 100%FREE -n lv03
+
+mkfs.xfs /dev/vg0/lv03
+
+vi /etc/fstab
+
+G
+o
+/dev/mapper/vg0-lv03  /mnt/disk3   xfs defaults 1 1
+esc
+:wq
+
+mount -a 마운트 시키고 확인
+
+mount -a
+
+lsblk
+df -Th
+
+생성한 lv,vg,pv 모두 삭제
+
+umount -a
+
+vi /etc/fstab
+G
+dd0
+:wq
+
+lvremove /vg0/lv{01..03}
+
+vgremove vg0
+
+pvremove /dev/sdb{1..4}
+======================================================================================
+
+볼륨그룹 확장 : vgextend vg명 pv명... 
+볼륨그룹 축소 : vgreduce vg명 pv명...
+물리볼륨 내용 이동 : pvmove pv명...
+
+논리볼륨 확장 : lvextend lv경로 -r(파일시스템 확장)
+xfs  파일시스템 확장 : xfs_growfs 마운트 포인트
+ext4 파일시스템 확장 : resize2fs lv경로
+
+LVM 실습
+
+LVM 확장 축소 실습
+
+파티션 모두 삭제
+파티션 용량 4,6,4,6
+/dev/sdb1~4 모두 물리 볼륨으로 생성
+
+/dev/sdb1,4 으로 볼륨 그룹 생성 (pe 단위를 16M로)
+
+vgcreate vg0 /dev/sdb[14] -s 16M
+
+lv01 4G (-L 옵션을 사용해서) 
+
+lvcreate vg0 -L 4G -n lv01
+
+lv02 4G (-l  옵션을 사용해서)
+
+lvcreate vg0 -l 256 -n lv02
+
+lv03 남은 용량 모두 사용 
+
+lvcreate vg0 -l 100%FREE -n lv03
+
+lv01 은 xfs 파일시스템으로 format 해서 /mnt/disk1로 마운트 
+
+mkfs.xfs /dev/vg0/lv01
+mount /dev/vg0/lv01  /mnt/disk1
+
+lv02 는 ext4 파일시스템으로 format 해서 /mnt/disk2로 마운트
+
+mkfs.ext4 /dev/vg0/lv02
+mount /dev/vg0/lv02  /mnt/disk2
+
+lv03 은 xfs 파일시스템으로 format 해서/mnt/disk3로 마운트 
+
+mkfs.xfs /dev/vg0/lv03
+mount /dev/vg0/lv03
+
+볼륨그룹에 /dev/sdb3 추가할 것
+
+vgextend vg0 /dev/sdb3
+
+lv01를 5G로 확장할 것(+ 옵션을 사용해서) -r 옵션 사용하지 말 것
+
+lvextend -L +1G /dev/vg0/lv01
+
+lv02를 6G로 확장할 것(+ 옵션을 사용하지 말고) -r 옵션 사용하지 말 것
+
+lvextend -L 6G /dev/vg0/lv02
+
+명령어로 파일시스템 확장
+
+lsblk
+df -Th
+
+xfs_growfs /mnt/disk1
+
+resize2fs /dev/vg0/lv02
+
+용량 확장 확인
+
+
+df -Th
+
+
+/dev/sdb4가 문제가 생겼습니다. /dev/sdb4를 제거하시오. 
+
+vgreduce vg0 /dev/sdb4
+에러 : 사용중
+pvmove /dev/sdb4
+에러 : 용량부족
+vgextend /dev/sdb2
+pvmove /dev/sdb4
+vgreduce vg0 /dev/sdb4
+
+---------------------------------------------------
+
+systemctl 
+
+status : 상태확인
+start : 시작
+stop : 종료
+restart : 재시작
+reload : 재설정
+enable : 활성화
+disable : 비활성화
+mask : 마스크 설정
+unmansk : 마스크 해제
+
+systemctl 실습
+
+httpd 서비스 상태 확인
+
+httpd 서비스 시작
+
+httpd 서비스 활성화
+
+httpd 서비스 중지
+
+httpd 서비스 비활성화
+
+httpd 서비스 잠금
+
+httpd 서비스 잠금해제
+
+httpd 서비스 시작 후에 pid 확인
+
+httpd 서비스 리로드 후 pid 확인
+
+httpd 서비스 재시작 후 pid 확인

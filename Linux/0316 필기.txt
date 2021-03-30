@@ -1,0 +1,114 @@
+================================
+실습 
+
+root 접속
+centos 사용자 전환
+[root@localhost ~]# su - centos
+
+sudo -i로 root 재전환 후 사용자 생성
+[centos@localhost ~]$ sudo -i
+
+default 값을 
+home1, /bin/sh 로 설정 
+[root@localhost ~]# vi /etc/default/useradd 
+[root@localhost ~]# useradd -D
+GROUP=100
+HOME=/home1
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/sh
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+
+사용자      uid	gid   보조그룹    home	          shell
+user01     1001	1001  1000	/home/user01(-b)  /bin/bash
+user02     2000	1000  10	/home/user2       /bin/bash
+user03     2001	2001  wheel	/home/user3       /bin/bash
+testuser01 2002	1000            /home1/testuser01 /bin/sh
+[root@localhost ~]# useradd -G 1000 -b /home -s /bin/bash user01
+[root@localhost ~]# useradd -u 2000 -g 1000 -G 10 -d /home/user2  -s /bin/bash user02
+[root@localhost ~]# useradd -G wheel -d /home/user3 -s /bin/bash user03
+[root@localhost ~]# useradd -g 1000 -s /bin/bash testuser01
+
+default 값
+home, /bin/bash 로 변경
+/home1 => /home
+/bin/sh => /bin/bash
+
+[root@localhost ~]# vi /etc/default/useradd 
+[root@localhost ~]# useradd -D
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+
+user02의 홈디렉토리를 /home/user02로 변경
+[root@localhost ~]# usermod -d /home/user02 user02
+
+user03의 홈디렉토리를 삭제 후에 다시 만들 것
+
+testuser01의 아이디명을 user04로 변경, 코멘트 user4로 변경, 홈디렉토리 /home/user04로 변경, 쉘을 /bin/bash로 변경 
+
+--------------------------------------------------------
+group 생성
+
+그룹명		gid
+newgroup01 	4000
+newgroup02	10
+[root@localhost ~]# groupadd -g 4000 newgroup01
+[root@localhost ~]# groupadd -og 10 newgroup02
+
+newgroup01을 newgroup 으로 이름 변경하고, gid를 1000으로 변경
+[root@localhost ~]# groupmod -n newgroup -og 1000 newgroup01
+
+newgroup02를 newgroup01 로 이름 변경, gid를 4000 으로 변경
+[root@localhost ~]# groupmod -n newgroup01 -g 4000 newgroup02
+
+user01을 newgroup의 구성원으로 
+[root@localhost ~]# usermod -G newgroup user01
+
+user02를 newgroup01의 구성원으로
+[root@localhost ~]# usermod -G newgrou01p user 02
+
+그룹 구성원 확인
+[root@localhost ~]# grep 'new' /etc/group
+
+newgroup 과 newgroup01 삭제
+
+aclgroup 생성
+[root@localhost ~]# groupadd aclgroup
+
+-------------------------------------------------------
+
+확장 권한
+
+일반사용자가 cat 명령어를 통해서 /etc/shadow 내용을 볼 수 있도록 설정하시오.(sudo 명령어 사용 X)
+[root@localhost ~]# chmod u+s /bin/cat
+
+/ptest 디렉토리를 만들고 안에 만들어지는 파일들의 소유그룹이 user02가 되도록 설정하시오.
+[root@localhost ~]# mkdir ptest
+[root@localhost ~]# chown :user02 /ptest
+[root@localhost ~]# chmod 2777 /ptest 또는 [root@localhost ~]# chmod a=rwx,g+s /ptest
+
+/ptest/dir01안에 만들어지는 파일이나 디렉토리가 만든 파일 생성자나 root만이 삭제할 수 있도록 설정하시오
+
+---------------------------------------------------------
+
+acl 설정
+
+/ptest 777로 권한 재설정
+
+/ptest 안에 dir02 디렉토리 생성
+
+dir02 디렉토리에 user03만 들어올 수 없도록 설정
+
+dir02 안에  file01 생성
+
+file01 에  user01은 읽기 쓰기가 가능하고 aclgroup 구성원은 읽기만 가능하도록 설정
+
+dir02 안에 dir03 디렉토리를 만들고 user01은 읽기만 가능하고 aclgroup은 읽기 쓰기가 가능하도록 설정
+
+dir02 안에 dir04 디렉토리를 만들고 dir04은 centos만 읽기 쓰기가 가능하고 나머지는 못들어오도록 설정

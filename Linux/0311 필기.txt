@@ -1,0 +1,220 @@
+p62 mkdir -p 경로 : 있으면 들어가서 안에 파일 만들고 없으면 만들어서 그 안에 파일들을 만든다
+p63 cp는 -f 명령어가 안먹힘 (이유모름ㅇ_ㅇ)
+p64 파일 단복복사 : cp 복사대상(source) file명 or dir명(destination)
+p66 cp -r dir01 dir02 : dir02안에 dir01을 또 만들어줌(밖에있으니까)
+일반적으로 cp에서 같은 이름이 있으면 합쳐짐
+반드시 마지막엔 디렉토리이름을 적어야한다잉앵앵
+p67 mv 이동대상 : 이동위치 또는 이동과 동시에 이름변경
+당연한 내용이지만 cp는 기존파일, 복사파일 2가지가 생기는것이고 mv는 기존파일만있기때문에 원본파일에 대한 유무를 헷갈리지않도록 주의하장
+mv는 -r 옵션안들어감
+p69 rmdir 비어있어야 삭제가능
+p74 심볼릭링크 => 파일의 이름을 따라감
+p77 권한 
+파일의 r : cat, more, less, head, tail
+디렉토리의 r : ls, tar, 
+디렉토리의 w : mv, rm 
+디렉토리안에 파일이있다고 쳤을 때, 디렉토리는 접근불가 파일은 접근가능이다.
+이때 디렉토리를 읽을순없지만 파일 경로를안다면 읽기가능.
+디렉토리/파일의 각 권한을 따져서 rwx에 대해 판단해야함
+p78 chmod 여러개 쓸때 : chmod u+x,go-r 파일명 (이런식으로 ,뒤에 띄워쓰지마)
+p86 []에서 범위지정 가능 : [a-z] [A-Z] [0-9] [a-z A-Z 0-9] (내림차순안됨)
+반대로 [^]도 가능 : [^a-z]
+p93 grep '\^a.*g\$' test
+=> \뒤에 오는것 하나만 문자로인식
+=> ^a(로시작하는거)g$
+p95 -exec Command {} \; : find로 검색한 것에 대한 명령어 실행 (즉시 실행)
+예) find ./ -perm 111 -exec chmod 000 {}(이게 find로 찾은 파일명이 들어가는자리) \;
+-ok Command {} \; : 할지말지물어봄(대화형)
+
+----------------실습--------------------
+디렉토리 내용 보기 실습
+
+1. /etc/ 디렉토리의 리스트를 출력  
+ls /etc/
+
+2. /etc/ 디렉토리의 리스트를 자세하게 출력 : -l (자세하게, long의 의미)
+ls -l /etc/
+
+3. /root/ 디렉토리의 리스트를 숨김파일까지 자세하게 출력 : -la (숨김파일까지, all)
+ls -la /root (or ls -la ~/)
+
+4. /root/ 디렉토리 자체의 정보를 자세하게 i-node table 값까지 출력(경로:상대경로) : -lia (i 노드 값까지, i-node)
+ls -lia /root
+
+#################ls  -ldi ./ (상대경로라서)
+
+5. /bin/ 디렉토리의 리스트를 파일형식까지 나오도록 출력 : -F (파일형식)
+ls -F /bin/
+
+6. /root/ 디렉토리의 하위 디렉토리 내용까지 볼수있도록 출력 : -R (하위 디렉토리까지)
+ls -R /root/
+
+====================================================
+
+파일 내용보기 실습
+1. /etc/passwd   파일의 내용을 한꺼번에 화면에 출력하시오. : cat (파일 내용출력)
+cat /etc/passwd
+
+2. /var/log/messages  파일의 내용을 한화면씩 나누어서 출력하시오. 2가지 명령어를 모두 사용하시오. : more/less (화면단위로 끊어서 출력)
+more /var/log/messages
+less /var/log/messages
+
+3. /etc/passwd   파일의 내용 중 상위에서 3줄만 출력하시오. : head (상위 n줄 출력)
+head -3 /etc/passwd
+
+4. /etc/sudoers  파일의 내용을 마지막 4줄만 출력하시오. : tail (하위 n줄 출력)
+tail -4 /etc/sudoers
+
+5. /etc/sudoers  파일의 라인수가 몇인지 알아보시오. : wc -l (라인수 구하기 word count line)
+wc -l /etc/sudoers
+(그냥 wc만 적으면 라인수, 단어수, 파일크기 나옴)
+
+1. /etc/ 디렉토리를 복사해서 /root/dir1에 넣으세요. : cp -r (디렉토리 복사)
+mkdir /dir1 (이 과정이 없으면 2번부터 못함)
+cp -r /etc/ /root/dir1
+
+2. /root/dir1/etc/passwd 파일을 /root/passwd1으로 이름을 바꾸어 이동시키시오.
+
+3. /root/passwd1 파일을 복사해서 /tmp에 이름 그대로 넣으시오.
+
+4. /tmp/passwd1 을 /root/dir1/etc/passwd 로 이름을 바꾸어 이동시키시오.
+
+5. /root/dir1/etc/안의 group 파일과 shadow 파일을 삭제하시오.
+[root@localhost etc]# rm group shadow
+
+6. /root/dir1/etc/sysconfig 디렉토리를 삭제하시오.
+
+7./root/a/aa/aaa/aaaa/ 를 만드시오.
+
+8./root/a/aa/aaa/aaaa/를 rmdir를 사용해서 지우시오.
+
+
+링크 파일 실습
+
+1. test (숫자) 로 된 파일을 만들고 하드링크파일 test-h 와 심볼릭링크파일 test-s1를 만드시오.
+
+2. test 파일의 아이노브테이블 값과 test-h의 아이노드테이블 값을 비교하시오.
+
+3. test 파일을 /tmp 로 이동시키시오.
+
+4. test(영어로 작성)을 만들고 test-h와 test-s 내용을 비교하시오.
+
+5. test 의 절대 경로로 심볼릭링크 파일 test-s1 만드시오.
+
+6. test-s와 test-s1 파일을 /tmp로 이동시켜서 내용을 보시오. 
+
+
+퍼미션 실습
+
+준비사항 : p1 p2 p3 p4 p5 p6 p7
+
+touch p1 p2 p3 p4 p5 p6 p7
+
+1. p1 심볼릭 방식으로 그룹과 기타사용자에게 실행권한
+[root@localhost ~]# chmod go+x ptest/p1
+[root@localhost ~]# ls -ld ptest/p1
+--w--wx-wx. 1 root 0 0 Mar 11 14:53 ptest/p1
+
+2. p2 심볼릭 방식으로  소유주의 권한을 ---로 만들 것
+[root@localhost ~]# chmod u= ptest/p2
+[root@localhost ~]# ls -ld ptest/p2
+-----w--w-. 1 root 0 0 Mar 11 14:53 ptest/p2
+
+3. p3 심볼릭 방식으로 모든 대상 읽기와 실행 권한을 주고 쓰기 권한을 뺄 것 , 단 방식은 셋팅 방식으로
+[root@localhost ~]# chmod a=rx ptest/p3
+[root@localhost ~]# ls -ld ptest/p3
+-r-xr-xr-x. 1 root 0 0 Mar 11 14:53 ptest/p3
+
+4. p4 8진수 방식으로 소유주 읽기 실행, 소유 그룹 실행 권한만, 기타 사용자에게는 쓰기 권한만
+[root@localhost ~]# chmod 512 ptest/p4
+[root@localhost ~]# ls -ld ptest/p4
+-r-x--x-w-. 1 root 0 0 Mar 11 14:53 ptest/p4
+
+5. p5 8진수 방식으로 모든 사용자 모든 권한 삭제
+[root@localhost ~]# chmod 000 ptest/p5
+[root@localhost ~]# ls -ld ptest/p5
+----------. 1 root 0 0 Mar 11 14:53 ptest/p5
+
+6. p6 8진수 방식으로 소유그룹만 읽기, 쓰기 권한 줄 것
+[root@localhost ~]# chmod 060 ptest/p6
+[root@localhost ~]# ls -ld ptest/p6
+----rw----. 1 root 0 0 Mar 11 14:53 ptest/p6
+
+7. p7 8진수 방식으로 실행 권한만 줄 것
+[root@localhost ~]# chmod 111 ptest/p7
+[root@localhost ~]# ls -ld ptest/p7
+---x--x--x. 1 root 0 0 Mar 11 14:53 ptest/p7
+
+8. /root/filea 디렉토리에 기타 사용자가 들어올 수 없도록 권한을 변경하시오.
+
+
++) mkdir 옵션
+[root@localhost ~]# mkdir -m 777 dir02
+[root@localhost ~]# ls -ld dir02
+drwxrwxrwx. 2 root 0 6 Mar 11 15:16 dir02
+
+[ 소유권 변경 실습 ]
+
+/etc/passwd 파일을 /root/로 복사
+
+/root/passwd 파일의 소유자 를 centos 로 변경
+
+/root/passwd 파일의 소유그룹을 nobody로 변경
+
+/root/passwd 파일의 소유자와 소유그룹을 adm 으로 변경
+
+/etc/ 디렉토리를 /root로 복사하고 /root/etc 디렉토리 안의 파일까지 pcp로 소유자를 변경하시오.
+
+
+[ grep 실습 ]
+
+1. /etc/passwd 파일에서 root 내용을 검색하시오.
+[root@localhost ~]# grep 'root' /etc/passwd
+
+2. /etc/passwd 파일에서 nologin이 뒤에 오는 내용을 검색하시오.
+[root@localhost ~]# grep 'nologin$' /etc/passwd
+
+3. /etc/passwd 파일에서 n로 시작하고 y로 끝나는 6글자 단어가 포함되어있는 라인을 검색하시오.
+[root@localhost ~]# grep 'n....y' /etc/passwd
+
+4. /etc/passwd 파일에서 n이 라인에 시작부분으로  되어있는 라인을 검색하시오.
+[root@localhost ~]# grep '^n' /etc/passwd
+
+5. /etc/passwd 파일에서 home이 들어간 라인 위로 5줄을 출력하시오.
+[root@localhost ~]# grep -B 5 "home" /etc/passwd
+
+6. /etc/passwd n으로 시작해서y로 끝나는 모든 패턴을 검색하시오.
+[root@localhost ~]# grep 'n.*y' /etc/passwd
+
+7. /etc/passwd bash가 들어간 라인을 제외하고 출력하시오.
+[root@localhost ~]# grep -v 'bash' /etc/passwd
+
+8. 전화번호 패턴을 찾는다고 하면 어떻게 설정하면 될까요? 패턴 010-0000-0000
+grep '010-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]' 파일명
+
+/var/log/messages 파일을 /root/ 파일에 복사하시오. ㅇㅇ
+9. /root/messages 파일 내에서 3월 11일  09:00 ~ 18:59 사이의 내용을 검색하시오
+
+find 실습
+
+/down 디렉토리를 생성하시오.
+
+/down 디렉토리에 test1, test2 파일을 생성 하시오 
+
+/down 디렉토리에 있는 test1, test2 파일을 각각 test3, test4 파일로 /tmp   디렉토리에 복사하시오.
+(test1 => test3, test2 => test4)
+
+/down 디렉토리에 test 디렉토리를 생성하시오. 
+
+/down/test 디렉토리를 /tmp 디렉토리로 이동 하시오 
+
+1.find 명령어를 통해 /tmp 디렉토리내에 파일명 앞부분에 “test”문자열이 섞인 파일을 검색하면서 삭제 하시오.
+[root@localhost ~]# find /tmp -name 'test*' -type f -exec rm {} \;
+
+2.find 명령어를 통해 /etc/group 파일을 찾아서 /root/ 디렉토리에 복사하시오.
+
+3.find 명령어를 통해 /root/group 파일을 찾아서 삭제하시오.(단 대화형으로)
+
+4.find 명령어를 통해서 / 내에서 소유자가 centos 인 파일들을 모두 찾아서 자세하게 출력하시오.
+
+5.find 명령어를 통해서 /tmp 내에서 소유자가 centos인 파일을 찾아서 삭제 하시오.

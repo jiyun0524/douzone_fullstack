@@ -1,0 +1,642 @@
+﻿파일 및 디렉토리 생성 복사 이동 삭제 실습
+
+pwd
+/root/
+
+1. /etc/sysconfig 복사해서 /root/filetest/ 넣으세요.
+
+mkdir /root/filetest
+
+cp -r /etc/sysconfig /root/filetest
+
+2. /root/filetest/sysconfig/network-scripts/를 이동시켜 /root/filetest1/에 넣으세요.
+
+mkdir /root/filetest1
+
+mv /root/filetest/sysconfig/network-scripts /root/filetest1
+
+3. /root/filetest1/network-scripts 디렉토리에 파일 이름이 testfile을 만드시오.
+
+touch /root/filetest1/network-scripts/testfile
+
+4. /root/filetest1/network-scripts/testfile 을 복사해서 /root/testfile1을 만드시오
+
+cp /root/filetest1/network-scripts/testfile /root/testfile1
+
+5. /root/testfile1 파일을 /tmp/testfile로 이름을 바꾸시오.
+
+mv /root/testfile1  /tmp/testfile
+
+6. /root/b/bb/bbb/bbbb를 명령어 한줄로 만드시오
+
+mkdir -p /root/b/bb/bbb/bbbb
+
+7. /root/filetest/ 의 시간 정보를 현재 시작으로 바꾸시오.
+
+touch /root/filetest
+
+8. rmdir 명령어로 /root/b/디렉토리를 삭제하시오.
+
+rmdir -p /root/b/bb/bbb/bbbb
+
+============================================================================
+링크파일 실습
+
+실습 위치
+pwd
+/root/
+
+gedit file1 
+1
+2
+3
+
+gedit file2
+a
+b
+c
+
+file1 hfile 하드링크 생성     ln file hfile
+      sfile1 소프트링크 생성  ln -s file sfile1
+
+file1 => file3 이름 변경  mv file1 file3
+file2 => file1 이름 변경  mv file2 file1
+
+hfile, sfile 내용 확인
+
+cat hfile => 숫자
+cat sfile1 => 영어
+
+
+현재 file1에 대한 소프트링크 생성시 절대경로로 sfile2으로 소프트링크 생성
+
+ln -s /root/file1  sfile2
+
+file3을 /tmp/file1로 이동시키면서 이름변경
+
+mv file3 /tmp/file1
+
+sfile1 과 sfile2을 /tmp로 이동
+
+mv sfile1 sfile2 /tmp
+
+sfile1 과 sfile2 내용 확인
+
+cat /tmp/sfile1 => 숫자
+cat /tmp/sfile2 => 영어
+
+=============================================
+
+
+퍼미션 
+
+/tmp/p 디렉토리 생성
+
+mkdir /tmp/p
+
+/tmp/p 안에 파일 f1,f2,f3,f4 생성
+
+cd /tmp/p
+
+touch f1 f2 f3 4
+
+1. 파일 전체를 모두 rwx 로 권한 줄 것 (심볼릭 모드)
+
+chmod a=rwx f1 f2 f3 f4
+
+2. f1 에서 소유자는 쓰기 권한을 빼고 소유그룹은 실행권한을 빼고 기타 사용자는 기타사용자는 모든 권한 뺄 것( 심볼릭모드)
+
+chmod u-w,g-x,o-rwx f1
+
+3. f2 소유자와 소유그룹을 r-x로 셋팅할 것(심볼릭 모드)
+
+chmod ug=rx f2
+
+4. f3 소유자는 읽기,쓰기,실행.  소유그룹은 읽기,실행.  기타사용자는 읽기. 권한을 줄 것(8진수 모드)
+
+chmod -023 f3
+
+chmod 754 f3
+
+5. /tmp/p 의 모든 파일의 소유자와 소유그룹을 centos로 변경할 것
+
+chown -R centos:centos /tmp/p
+
+centos로 사용자 전환 (su - centos)
+
+cd /tmp/p
+
+6. f4 소유자 읽기.  소유그룹 쓰기.  기타사용자 실행.  권한 뺄 것(8진수 모드)
+
+chmod -421 f4
+
+7. 파일이 생성될때 기타사용자에 대해서만 쓰기, 실행 권한이 빠지도록 기본권한을 설정하시오.(명령어로)
+
+umask 003
+
+=============================================================
+
+grep 실습
+
+/var/log를 복사해서 /tmp/copydir로 넣으세요.
+
+mkdir /tmp/copydir
+cp -r /var/log /tmp/copydir
+
+/tmp/copydir/log/secure 파일을 /tmp/secure_s로 심볼릭 링크를 만드시오.
+
+ln -s /tmp/copydir/log/secure /tmp/secure_s
+
+1. /tmp/secure_s 에서 root 패턴을 검색
+
+grep 'root' /tmp/secure_s
+
+2. /tmp/secure_s 에서 s로 시작해서 t로 끝나는 패턴 검색
+
+grep 's.*t' /tmp/secure_s
+
+3. /tmp/secure_s 에서 대소문자를 무시하고 'ju' 패턴 검색
+
+grep -i 'ju' /tmp/secure_s
+ 
+4. /tmp/secure_s 에서 su 단어가 있는 패턴만 검색
+
+grep -w 'su' /tmp/secure_s
+
+5. /tmp/secure_s 에서 centos를 검색하되 단어가 아닌 정규 표현식을 사용해서  검색
+
+grep -w 'c....s' /tmp/secure_s
+
+6. /tmp/copydir 에서 root 패턴 검색
+
+grep -r 'root' /tmp/copydir
+
+7. /tmp/secure_s 에서 3월 01일~21일자의 08:00부터 20:59 까지의 내용만 출력
+
+분류
+1.날짜
+2.시간
+
+egrep -e 'Mar ([ 1][0-9]|2[01]) (0[89]|1[0-9]|20)' /tmp/secure_s
+
+8. /tmp/secure_s 에서 root와 centos 패턴 동시에 검색 (2가지 방법모두 사용해 볼것)
+
+grep -e 'root' -e 'centos' /tmp/secure_s
+
+egrep '(root|centos)' /tmp/secure_s
+
+9. /tmp/secure_s 에서  . 자체를 검색하시오 (2가지 방법 모두 사용해 볼것)
+
+grep '\.' /tmp/secure_s
+
+fgrep '.' /tmp/secure_s
+
+================================================
+find 실습
+
+1. /tmp 에서 이름이 messages 인 파일을 찾으시오.
+
+find /tmp -name 'messages'
+
+2. /var/log/에서 파일 타입이 디렉토리 이며 사용자가 pcp 인 파일을 찾으시오.
+
+find /var/log -user pcp -type d
+
+3. /tmp 에서 파일 크기가 5byte 이하인 파일을 검색해서 자세하게 출력하시오.
+
+find /tmp -size -5c -ls
+
+or
+
+find /tmp -size -5c -exec ls -ild {} \;
+
+4. /tmp 에서 파일명이 old 로 끝나는 파일을 찾아서 /root/로 이동시키시오.
+
+find /tmp -name "*old" -exec mv {} /root/ \;
+
+5. /tmp 에서 파일명이 cron 로 시작하는 파일을 찾아서 대화형으로 삭제하시오.
+
+find /tmp -name "cron*" -ok rm -r {} \;
+
+6. /tmp 에서 log라는 이름이 포함된 파일명 그리고 type이 file 인 파일을 찾아서 삭제하시오.
+
+find /tmp -name "*log*" -type f -exec rm {} \;
+
+======================================================================
+
+vi 편집기 모드
+command mode
+edit mode (insert mode)
+extend mode (last line mode)
+
+vi 편집기 단축키
+
+command => edit
+
+i : 커서 앞
+
+a: 커서 뒤
+
+o: 커서 아래 라인에
+
+I: 라인에 앞
+
+A:라인에 뒤
+
+O:커서 위에
+
+R:windows => insert
+
+r:캐릭터 하나만 수정
+
+cc or S:라인 자체를 삭제하면서 edit mode 돌입
+
+cw:한 단어 삭제하고 edit mode 돌입
+
+s:한 단어 삭제 후 edit mode 돌입
+
+command mode
+
+h:왼쪽 이동
+
+j:아래 이동
+
+k:위 이동
+
+l:오른쪽 이동 라인 뒷방향으로 이동
+
+^:라인에 맨 앞에
+
+$:라인에 맨 뒤에
+
+H:화면에 처음 라인
+
+L:화면에 마지막 라인
+
+gg or 1G : 문서의 처음
+
+G : 문서의 마지막 라인
+
+num G : number 라인
+
+dd:라인 삭제
+
+dw:단어 삭제
+
+d^:커서 앞에서 라인 처음까지 삭제
+
+d$:커서 포함 라인 뒤까지 삭제
+
+U:라인에 수정한 것으로 원복하고 싶을때
+
+u:했던 작업 되돌리기
+
+ctrl+r : 작업 재실행
+
+yy:라인 복사
+
+yw:단어 복사
+
+y^:커서 앞에 부터 라인 앞까지 복사
+
+y$:커서 포함 라인 뒤까지 복사
+
+P:라인 복사시에는 커서의 윗라인에 붙여넣기 , 라인이 바뀌지 않는 복사시에 커서의 앞에 붙여넣기
+
+p:라인 복사시에는 커서의 아래에 붙여넣기, 라인이 바뀌지 않는 복사시에 커서의 뒤에 붙여넣기
+
+lastline mode
+
+:q = 수정을 안했을시에 종료
+
+:q! = 수정을 저장을 안하고 종료
+
+:w = 저장하기 
+
+:wq = 저장하고 종료
+
+:x = 저장하고 종료
+
+:set nu or set number = 라인 앞에 숫자 붙이기
+
+:set nonu  = 숫자 붙이기 취소 
+
+:n,m d = n 라인부터 m 라인까지 삭제
+
+:n,m co l = n 라인부터 m 라인까지 복사 해서 l 라인 아래에 붙이기
+
+:n,m m l = n 라인부터 m 라인까지 잘라내서 l 라인 아래로 이동
+
+:%s/A/B/g = 문서 전체에서 A를 B로 바꾸기
+
+:SP,EP s/A/B/g = SP 라인부터 EP라인까지 A를 B로 바꾸기
+
+/string
+
+?string
+
+n : 다음 패턴 검색
+
+N : 전 패턴 검색
+
+vi 편집기 실습
+
+/etc/passwd를  /root/passwd1로 복사하시오.
+
+cp /etc/passwd /root/passwd1
+
+vi /root/passwd1
+
+파일 안에서
+
+1번 라인을 복사해서 14번 라인에 붙이시오.
+
+gg or 1G
+yy
+14G
+P
+
+or
+
+:1 co 13
+
+1번 라인의 root라는 단어를 edit 모드로 들어가서 ro123(i 진입키를 이용해서)o098(a 진입키를 이용해서)t 라고 적으시오.
+
+gg or 1G
+커서를 두번째 o로 이동 i를 누르고 123
+esc
+커서를 두번째 o로 이동 a를 누르고 098
+esc
+
+1번 라인의 root 라는 글자 중에 ot만 복사해서 adm 이라는 단어에 붙여서 aotdm 이라는 단어를 만드시오.
+
+/root
+2번째 o로 이동 
+yw
+/adm
+p
+
+1번부터 5번까지의 /(슬러쉬) 모양을 | (파이프)로 변환시키시오.
+
+:1,5 s/\//|/g
+
+지금까지 한 작업을 /root/vitest 란 파일로 저장하고 나가시오.
+
+:w /root/vitest
+
+--------------------------------------------------------------------------
+
+vimtutor 실행
+
+vimtutor
+
+/root/vimtutor로 다른 이름 저장하시오.
+
+:w /root/vimtutor
+
+vimtutor 종료 후
+
+:q
+
+/root/vimtutor 파일 vim 편집기로 실행
+
+vim /root/vimtutor
+
+1번 라인을 복사해서 3번 라인 아래에 붙여넣으시오.
+
+gg or 1G
+yy
+2G
+p
+
+or
+
+:1 co 2
+
+vim 이라는 단어를 123 로 문서 전체를 변경하시오.
+
+:% s/vim/123/g
+
+1번부터 20번 사이에 123을 다시 vim으로 변경하시오.
+
+:1,20 s/123/vim/g
+
+2번라인부터 5번라인까지 복사해서 10번 라인에 붙여넣으시오.
+
+2G
+4yy
+10G
+P
+
+or
+
+:2,5 co 9
+
+1라인부터 10번라인을 잘라내서 마지막 라인 위로 붙여넣으시오.
+
+gg or 1G
+10dd
+G
+P
+
+:1,10 m 마지막 라인 위번호
+
+30번 라인부터 40번 라인까지 삭제하시오.
+
+30G
+11dd
+
+:30,40 d
+
+1번 라인의 내용만 삭제하면서 123 이라는 단어를 쓰시오.
+
+gg or 1G
+cc
+123
+esc
+
+==================================================================
+
+쉘 메타문자 실습
+
+root로 접속
+
+1. /etc/ 로 이동 후에 틸드 문자를 사용해서 현 사용자의 디렉토리로 이동하시오.
+
+cd /etc/
+
+cd ~
+
+2. /etc/sysconfig/network-scripts/ 로 이동 후에 홈으로 다시 이동 - 문자를 사용해서 이동해 보시오.
+
+cd /etc/sysconfig/network-scripts/
+
+cd -
+
+3. 자신의 홈디렉토리로 이동 /etc/sysconfig/network-scripts 디렉토리의 내용을 확인해보시오. (틸드 문자 이용)
+
+ls ~-/
+
+4. /tmp/mtest 디렉토리 안에 za1~za10 파일과 zb01~zb10 파일과 zc001~zc100 파일을 만드시오.
+
+mkdir /tmp/mtest
+
+touch /tmp/mtest/z{a{1..10},b{01..10},c{001..100}}
+
+5. 모든 파일을 삭제 하는데 za 파일은 [ ], zb 파일은 ?, zc 파일은 *을 사용하시오.
+
+rm -f /tmp/mtest/z{a[1-9],a10,b??,z*}
+
+6. /media 디렉토리 안에 Music, Movie, Picture 디렉토리를 각각 만들고 music(00-20).mp3, movie(00-10).avi, picture(0-9).jpg 파일을 생성 후에 이름에 맞추어서 각각 넣으시오.
+
+mkdir /media/{Music,Movie,Picture}
+
+touch /media/{music{00..20}.mp3,movie{00..10}.avi,picture{0..9}.jpg}
+
+mv /media/mu* /media/Mu*
+mv /media/mo* /media/Mo*
+mv /media/p* /media/P*
+
+7. /media 디렉토리 안에 superman-season(1~3) 디렉토리를 각각 만들고 superman-season(1~3)-drama(01~10).avi 파일 생성 후에 이름에 맞추어서 각각 넣으시오. 파일 이동시 최대한 간단하게 작성해보시오.
+ex)
+directory명 : superman-season1 
+file명 : superman-season1-drama01.avi
+
+mkdir /media/superman-season{1..3}
+
+touch /media/superman-season{1..3}-drama{01..10}.avi
+
+mv /media/s*n1*i /media/s*n1
+mv /media/s*n2*i /media/s*n2
+mv /media/s*n3*i /media/s*n3
+
+========================================================
+
+리디렉션 및 파이프 
+실습
+
+centos 로 로그인
+su - centos
+
+1. ls -lR / 의 정상 출력 값은  ~/r01에 입력하고 에러값은 ~/r02에 입력하시오.
+
+ls -lR / 1> r01 2> r02
+
+2. ls -lR / 의 모든 출력 값을 ~/r03에 입력하시오.
+
+ls -lR / &> r03
+
+or
+
+ls -lR / > r03 2>&1
+
+root 로 사용자전환
+`
+3. ps -ef 의 출력값을 한화면씩 끊어서 보시오.
+
+ps -ef | less
+
+4. yum list 의 결과값 중에서 ssh 라는 패턴이 들어가는 것을 출력해보시오.
+
+yum list | grep 'ssh'
+
+===========================================================================
+
+프로세스 실습
+
+터미널 4개 열 것
+각 장치별로 sleep 1000 부터 4000 까지 백그라운드로 실행
+(pts/0=>sleep 1000, pts/1=>sleep 2000, pts/2 => sleep 3000, pts/3=>sleep 4000 각각 실행 )
+터미널 pts/0 에서 gedit과 firefox를 백그라운드로 실행
+
+pts/0 => sleep 1000 &
+pts/1 => sleep 2000 &
+pts/2 => sleep 3000 &
+pts/3 => sleep 4000 &
+
+pts/0 => gedit &
+pts/0 => firefox &
+
+1. sleep, gedit, firefox 의 PID 와 PPID 가 무엇인지 확인
+
+ps -ef | egrep '(bash|sleep|gedit|firefox)'
+
+2. pts/2 번에서 sleep 20000 을 포그라운드로 실행시키고 백그라운드로 보내 볼 것
+
+sleep 20000
+ctrl + z
+bg %작업번호
+
+3. firefox를 kill 명령어로 kill 해볼 것
+
+kill -15 firefox의 PID
+
+4. gedit을 pkill 명령어로 kill 해볼 것
+
+pkill -TERM gedit
+
+5. pts/0, pts/3의 sleep 프로세스를 kill 할 것
+
+pkill -t pts/0,pts/3 sleep
+
+6. 모든 bash 쉘 킬 할 것. 
+
+killall -9 bash
+
+7. nice 값 -11의 우선순위로 sleep 2000을 실행시키시오. (확인 ps -l | egrep '(sleep|NI)'
+
+nice -n -11 sleep 2000 &
+
+ps -l | egrep '(sleep|NI)'
+
+8. sleep 2000의 우선순위를 -15로 수정하시오.
+
+renice -n -15 sleep의 PID
+
+centos로 사용자 전환
+
+su - centos
+
+9. 위에 7번을 실행해보시오.
+
+nice -n -11 sleep 2000 &
+에러발생 : 권한 부족
+ps -l | egrep '(sleep|NI)'
+0로 되어 있음.
+
+10. nice 값을 5로 sleep 2000 을 실행시키시오.
+
+nice -n 5 sleep 2000 &
+실행됨
+ps -l | egrep '(sleep|NI)'
+
+11. nice 값을 4로 수정해보시오.
+
+renice -n 4 해당PID
+에러발생 : 권한부족
+
+12. nice 값을 10으로 수정해보시오.
+
+renice -n 10 해당PID
+실행됨
+ps -l | egrep '(sleep|NI)'
+
+=======================================================
+
+아카이브
+
+생성 tar cvf file명.tar 대상(file, directory)
+보기 tar tvf file명.tar
+해제 tar xvf file명.tar
+
+gzip  tar czvf file명.tar.gz  대상       가장 오래된 압축툴 압축속도 빠름 압축률 낮음
+bzip2 tar cjvf file명.tar.bz2 대상       압축속도 중간  압축률 중간
+xz    tar cJvf file명.tar.xz  대상       압축속도 느림 압축률 높음
+
+지정 아카이브 및 압축 해제 : -C 지정경로
+
+아카이브 실습
+
+/usr/bin 디렉토리를 아카이브 및 압축 (gzip, bzip2, xz) 를 해보시오.
+
+압축한  파일 중 xz 파일을 /tmp에 이동하지 말고 지정해서 압축해제 하시오.

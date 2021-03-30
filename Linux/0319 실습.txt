@@ -1,0 +1,400 @@
+﻿스냅샷 초기화
+
+기존 repo 파일을 새로 생성한 backup 디렉토리에 이동 시켜놓고
+
+dvd 와 인터넷을 통해서 다운을 받을 수 있도록 repo 파일 설정
+
+mkdir /media/cdrom
+
+umount /dev/cdrom
+
+mount /dev/cdrom /media/cdrom
+
+인터넷 주소 =>http://mirrors.kernel.org/centos/7/os/x86_64/
+ 
+로컬 주소 => file:///media/cdrom (dvd 마운트 위치)
+
+cd /etc/yum.repos.d/
+
+mkdir backup
+
+mv Cen* backup
+
+iv test.repo
+
+[DVD]
+name=dvd
+baseurl=file:///media/cdrom
+enabled=1
+gpgcheck=0
+
+[NET]
+name=network
+baseurl=http://mirrors.kernel.org/centos/7/os/x86_64
+enabled=1
+gpgcheck=0
+
+zsh 패키지를 rpm 명령어를 통해서 설치
+
+rpm -Uvh /media/cdrom/Packeges/zsh-xxxxxxxxxx.rpm
+
+zsh 패키지를 rpm 명령어를 통해서 삭제
+
+rpm -e zsh
+
+ksh 패키지를 yum 명령어를 통해서 설치(한번에 설치까지)
+
+yum -y install ksh
+
+zsh 패키지를 yum 명령어를 통해서 설치(ISO 이미지의 .rpm 파일을 통해서)
+
+yum -y localinstall /media/cdrom/Packeges/zsh-xxxxxxxx.rpm
+
+ksh 패키지를 yum 명령어를 통해서 삭제(한번에 삭제)
+
+yum -y remove ksh
+
+그룹 패키지 리스트 확인
+
+yum groups list
+
+Security Tools 패키지 정보 확인
+
+yum groups info "Security Tools"
+
+Security Tools 그룹 패키지 설치
+
+yum groups install "Security Tools"
+
+Security Tools 그룹 패키지 삭제
+
+yum groups remove "Security Tools"
+
+패키지 설치 로그를 확인
+
+less /var/log/yum.log
+
+/etc/ssh 디렉토리가 어떤 패키지로 인해서 생성된 것인지 확인하시오.
+
+rpm -qf /etc/ssh
+
+or
+
+yum provides /etc/ssh
+
+해당 패키지로 인해서 생성된 설정 파일 확인
+
+rpm -qc openssh
+
+해당 패키지로 인해서 생성된 문서 파일 확인
+
+rpm -qd openssh
+
+해당 패키지에 대한 정보를 확인하시오.
+
+rpm -qi openssh
+
+ssh 서비스 정지 (해당 서비스는 sshd.service)
+
+systemctl stop sshd
+
+ssh 서비스 비활성화
+
+systemctl disable sshd
+
+ssh  관련 패키지 삭제
+
+yum remove openssh*
+
+원상태로 복구
+
+yum install openssh*
+systemctl start sshd
+systemctl enable sshd
+
+====================================================================================
+
+네트워크 관리 실습
+
+초기설정으로 초기화
+
+현재 각 인터페이스 별 IP 주소 확인(2가지 방법 모두 실행)
+
+ifconfig
+
+ip addr
+
+8.8.8.8에 대한 네트워크 경로 확인 (2가지 방법 모두 실행)
+
+traceroute 8.8.8.8
+
+trancepath 8.8.8.8
+
+네트워크 카드 1개 추가 (추가 랜카드 ens37)
+
+nmcli dev
+
+기존 인터페이스에 대한 고정 아이피 설정
+
+con-name  : dhcp1 
+유동 IP 설정
+
+nmcli con add con-name dhcp1 ifname ens33 type ethernet
+
+nmcli con reload
+
+새로 추가된 인터페이스에 대한 고정 아이피 설정
+
+con-name  : static200
+IP address: 192.168.100.200
+PREFIX    : 24
+
+nmcli con add con-name static200 ifname ens37 ip4 "192.168.100.200/24" gw4 "192.168.100.2"
+
+nmcli con reload
+
+dhcp1 연결 설정 수정
+
+con-name  : static100
+IP address: 192.168.100.100
+PREFIX    : 24
+DNS       : 8.8.8.8
+autoconnect : no
+
+nmclie con mod dhcp connection.id static100 ipv4.method manual ipv4.addresses "192.168.100.100/24" ipv4.gateway "192.168.100.2" ipv4.dns "8.8.8.8" connection.autoconnect no
+
+nmcli con reload
+
+static200 연결 설정 수정
+
+con-name  : dhcp2
+유동 IP 설정
+
+nmcli con mod static200 connection.id dhcp2 ipv4.method auto  ipv4.addresses "" ipv4.gateway ""
+
+nmcli con reload
+
+기존 인터페이스 연결 해제
+
+nmcli dev disconneted ens33(ens37)
+
+기존 인터페이스 연결 해제취소
+
+nmcli dev connected ens33(ens37)
+
+hostname : bitec1로 변경
+
+hostnamectl set-hostname bitec1
+
+======================================================================
+
+SSH 실습
+
+server(bitec1) : 192.168.100.100
+client(bitec2) : 192.168.100.200
+
+host명 bitec1에 bitec1user 생성하고 활성화 시키시오.
+
+server 컴퓨터
+
+hostnamectl set-hostname bitec1
+
+useradd bitec1user
+passwd bitc1user
+
+host명 bitec2에 bitec2user 생성하고 활성화 시키시오.
+
+hostnamectl set-hostname bitec2
+
+useradd bitec2user
+passwd bitc2user
+
+bitec1user 에서 bitec2user로 ssh 접속
+
+ssh bitec2user@192.168.100.200
+
+bitec1user 측에서 보관하고 있는 공개키(public key)와 bitec2가 보유한 공개키(public key) 내용 확인
+
+bitec1 host 진행상황
+
+vi /home/bitec1/.ssh/known_host
+
+bitec2 host 진행상황
+
+vi /etc/sshd/ssh_host_ecdsa_key.pub
+
+결과 : 일치함
+
+bitec2의 공개키와 개인키 삭제 후 sshd 재실행
+
+bitec2 host  진행
+
+rm -rf /etc/sshd/*key*
+ls /etc/sshd/
+
+systemctl restart sshd
+ls /etc/sshd/
+
+bitec1user 측에서 보관하고 있는 공개키(public key)와 bitec2가 보유한 공개키(public key) 내용 확인
+
+bitec1 host 진행상황
+
+vi /home/bitec1/.ssh/known_host
+
+bitec2 host 진행상황
+
+vi /etc/sshd/ssh_host_ecdsa_key.pub
+
+결과: 일치하지 않음
+
+bitec1user가 bitec2user로 접속할 수 있도록 하시오.
+
+
+bitec1 host 진행
+ssh bitec2user@192.168.100.200
+에러 : 공개키가 일치하지 않음
+rm -f ~/.ssh/known_host
+
+ssh bitec2user@192.168.100.200
+접속됨
+
+bitec1user가 bitec2user로 암호없이 로그인 되도록 키인증방식으로 설정하시오.
+
+bitec1 호스트의 bitec1user가 진행
+
+ssh-keygen
+ls .ssh/
+id_rsa     600
+id_rsa.pub 644
+ssh-copy-id bitec2user@192.168.100.200 => 공개키 전송
+
+
+bitec2에 root 계정으로 접속 할 수 없도록 설정하시오.
+
+vi /etc/sshd/sshd_config
+
+/RootPer
+
+PermitRootLogin no 로 설정
+:wq
+
+
+=======================================================================================
+
+firewalld
+
+firewall-cmd
+
+--state                                   : firewalld 실행 상태 확인
+--get-default-zone                        : 현재 기본 영역 표시
+--set-default-zone [zone]                 : 기본 영역 설정
+--get-zones                               : 사용가능한 모든 영역 나열
+--get-services                            : 사용가능한 모든 서비스 나열
+--get-active-zones                        : 현재 사용중인 모든 영역과 인터페이스 및 소스정보 나열
+--add-source=[ip주소] --zone=[zone]       : 출발지 주소 규칙 추가
+=> '--zone' 옵션을 통해 zone 지정해주지 않으면 자동으로 기본영역에 추가
+--remove-source=[ip주소]                  : IP 주소를 지정된 영역에서 제거
+--add-interface=[ifname] --zone=[zone]    : 특정 영역에 interface 연결 추가
+--change-interface=[ifname] --zone=[zone] : 영역에 연결된 interface 변경
+--list-all --zone=[zone]                  : 영역에 구성된 모든 인터페이스, 소스, 서비스, 포트 나열
+--add-service=[service] --zone=[zone]     : 해당 서비스 트래픽 허용
+--add-port=[port|protocol] --zone=[zone]  : 해당 포트나 프로토콜 트래픽 허용
+ + --permanent                            : 해당 옵션을 사용하지 않으면 현재 설정이 변경되며 영구설정은 지정이 안됨.
+--reload                                  : 런타임 구성 삭제, 영구 구성 적용
+--runtime-to-permanent                    : 실행중 설정을 영구 설정으로 변경
+
+
+
+firewalld 실습
+
+centos, server 초기화
+
+server에서 작업
+
+nfs-utils, nfs-utils-lib 패키지 설치
+
+yum -y install nfs-utils nfs-utils-lib
+
+nfs 서비스를 시작,활성화 후에 상태 확인
+
+systemctl start nfs
+systemctl enable nfs
+systemctl stauts nfs
+
+home zone에 다음 사항 추가 영구설정
+
+포트 번호
+80/tcp, 111/tcp, 2049/udp, 20048/tcp
+
+firewall-cmd --add-port=80/tcp --zone=home --permanent
+firewall-cmd --add-port=111/tcp --zone=home --permanent
+firewall-cmd --add-port=2029/udp --zone=home --permanent
+firewall-cmd --add-port=20048/tcp --zone=home --permanent
+
+
+프로토콜
+ICMP
+
+
+
+IP 주소 
+192.168.100.240  
+
+firewall-cmd --add-source=192.168.100.240 --zone=home --permanent
+
+서비스
+nfs
+
+firewall-cmd --add-service=nfs --zone=home --permanent
+
+home zone 상태 확인
+
+firewall-cmd --list-all --zone=home --permanent
+
+home zone 을 default-zone 으로 설정
+
+firewall-cmd --set-default-zone=home
+
+friewall-cmd --reload
+
+192.168.100.240 주소 제거 후에
+
+firewall-cmd --remove-source=192.168.100.240
+
+192.168.100.100 주소 추가 (--zone 없이 추가해볼 것)
+
+firewall-cmd --add-source=192.168.100.100
+
+현재 영역에 주소 추가
+
+home zone ip address 확인
+
+firewall-cmd --list-sources --zone=home
+
+client 컴퓨터에서 http://192.168.100.240/index.html 을 했을 경우 this is centos 라고 출력 되도록 하시오.
+
+client 컴퓨터 진행
+
+ip설정
+nmcli con add con-name static ifname ens33 type ethernet ip4 "192.168.100.240/24" gw4 "192.168.100.2"
+nmcli con reload
+nmcli con up static
+
+yum -y install httpd*
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+
+vi /var/www/html/index.html
+this is centos
+:wq
+
+server 컴퓨터 진행
+
+curl 192.168.100.240
+
+================================================================================================
+
+httpd.conf 설정 파일 내용
+
+https://doctorlinux.tistory.com/32
