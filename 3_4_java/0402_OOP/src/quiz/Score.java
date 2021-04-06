@@ -3,13 +3,16 @@ package quiz;
 import java.util.Scanner;
 
 public class Score {
-	private int kor, eng, com;
+	private int kor, eng, com; // 멤버변수
 	private double avg;
 	private char grade;
 	
+	// getter / setter method
+	// get 없으면 쓰기 전용 멤버
 	public int getKor() {
 		return kor;
 	}
+	// set 없으면 읽기 전용 멤버
 	public void setKor(int kor) {
 		this.kor = kor;
 	}

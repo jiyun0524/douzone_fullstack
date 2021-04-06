@@ -73,6 +73,7 @@ public class ex2_method2 {
 			System.out.println();
 		}
 	}
+	
 	public static void main(String[] args) {
 		System.out.println("성적표 *********************");
 		input();
