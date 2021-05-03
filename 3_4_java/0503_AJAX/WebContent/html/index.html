@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+</head>
+<body>
+	<!-- Fetch API는 리소스를 가져 오기위한 인터페이스를 제공합니다 -->
+	<!-- 
+<ol id="loc">
+	<li><a href="#"  onclick="
+		fetch('html')
+		  .then(function(res) {
+			res.text().then(function(text) {
+				document.querySelector('div').innerHTML = text;
+			});
+		});
+	">html</a></li>
+	
+	<li><a href="javascript:void(0)" onclick="
+		fetch('css')
+		  .then(function(res) {
+			res.text().then(function(text) {
+				document.querySelector('div').innerHTML = text;
+			});
+		});
+	">css</a></li>
+	
+	<li><a href="javascript:void(0)"  onclick="
+		fetch('exJsp.html')
+		  .then(function(res) {
+			res.text().then(function(text) {
+				document.querySelector('div').innerHTML = text;
+			});
+		});
+	">JSP</a></li>
+</ol>
+ -->
+
+	<ol id="loc">
+		<li><a href="#" onclick="fetchFunc('html')">HTML</a></li>
+		<li><a href="javascript:void(0)" onclick="fetchFunc('css')">CSS</a></li>
+		<li><a href="javascript:void(0)"
+			onclick="fetchFunc('jsp.html')">JSP</a></li>
+		<li><a href="javascript:void(0)"
+			onclick="fetchFunc('javascript.html')">JavaScript</a></li>
+	</ol>
+	<div></div>
+	
+	<!-- script function  -->
+	<script type="text/javascript">
+		function fetchFunc(fileName) {
+			fetch(fileName).then(function(res) {
+				res.text().then(function(text) {
+					document.querySelector('div').innerHTML = text;
+					//alert(text);
+				});
+			});
+		}
+		if (location.hash) {
+			fetchFunc(location.hash.substr());
+			console.log("file not found!!")
+		} else {
+			fetchFunc('welcome.html');
+		}
+	</script>
+</body>
+</html>

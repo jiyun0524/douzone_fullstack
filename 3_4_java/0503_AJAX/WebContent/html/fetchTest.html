@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title> fetchTest.html </title>
+</head>
+<body>
+<ol id="loc">
+	<li><a href="#" onclick="fetchFunc('html')	">HTML</a></li>
+	<li><a href="javascript:void(0)" onclick="fetchFunc('css')">CSS</a></li>
+	<li><a href="javascript:void(0)" onclick="fetchFunc('exJsp.html')">JSP</a></li>
+	<li><a href="javascript:void(0)" onclick="fetchFunc('JS.html')">JavaScript</a></li>
+</ol>
+<div></div>
+<!-- script function  -->
+<script type="text/javascript">
+
+	function show() {
+		document.write('response call');
+		console.log('console response call');
+	}
+
+//	then() 메소드는 어떤일을 하기 위해서 
+//	그 일이 다 끝날 때 까지 아무일도 하지않는 것이 아니라, 
+//	서버가 응답할 때 까지 다른일을 하는 것.  
+
+	fetch('css').then(show);
+	console.log(1);
+	console.log(2);
+	
+	/* function fetchFunc(fileName) {
+		fetch(fileName)
+		  .then(function(res) {
+			res.text().then(function(text) {
+				document.querySelector('div').innerHTML = text;
+			});
+		});
+	} */
+</script>
+</body>
+</html>
