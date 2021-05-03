@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="../JS/class.js" type="text/javascript"></script>
+
+</head>
+	<body>
+		<h3>Javascript class !</h3>
+		<div class="box">BOX</div>
+		<div class="red">RED</div>
+	</body>
+</html>

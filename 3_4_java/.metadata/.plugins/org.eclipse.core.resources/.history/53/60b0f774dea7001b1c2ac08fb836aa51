@@ -1,0 +1,27 @@
+// inheritanceJS.js
+
+class Vehicle {
+	constructor(name, wheel)
+	{
+		this.name = name
+		this.wheel = wheel
+	}
+}
+
+const myVehicle = new Vehicle('탈 것 : ', 2)
+console.log(myVehicle)
+
+class Bicycle extends Vehicle {
+	constructor(name, wheel)
+	{
+		super(name, wheel)
+	}
+}
+
+class Car extends Vehicle {
+	constructor(name, wheel, license)
+	{
+		super(name, wheel)
+		this.license = license
+	}
+}

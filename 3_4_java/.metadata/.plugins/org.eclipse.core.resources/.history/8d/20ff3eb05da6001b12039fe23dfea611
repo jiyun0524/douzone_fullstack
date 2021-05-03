@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex16_js.html</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript" src="../JS/main.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		 alert("innerHTML : " + document.body.innerHTML + "\n"
+				+ "innerText : " + document.body.innerText);
+		 
+		 var list = '';
+		 list += "<ul>";
+		 list += "<li>Hello </li>";
+		 list += "<li>Hi </li>";
+		 list += 
+	}
+</script>
+</head>
+
+<!-- <body onload="hello()"> -->
+<body>
+
+</body>
+</html>

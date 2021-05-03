@@ -1,0 +1,425 @@
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Directory HTML-5 Template</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS here -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/css/slicknav.css">
+<link rel="stylesheet" href="assets/css/animate.min.css">
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="assets/css/themify-icons.css">
+<link rel="stylesheet" href="assets/css/slick.css">
+<link rel="stylesheet" href="assets/css/nice-select.css">
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+	<!-- Preloader Start -->
+	<div id="preloader-active">
+		<div
+			class="preloader d-flex align-items-center justify-content-center">
+			<div class="preloader-inner position-relative">
+				<div class="preloader-circle"></div>
+				<div class="preloader-img pere-text">
+					<img src="assets/img/logo/loder.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Preloader Start-->
+	<header>
+		<!-- Header Start -->
+		<div class="header-area header-transparent">
+			<div class="main-header">
+				<div class="header-bottom  header-sticky">
+					<div class="container-fluid">
+						<div class="row align-items-center">
+							<!-- Logo -->
+							<div class="col-xl-2 col-lg-2 col-md-1">
+								<div class="logo">
+									<a href="index.html"><img src="assets/img/logo/logo.png"
+										alt=""></a>
+								</div>
+							</div>
+							<div class="col-xl-10 col-lg-10 col-md-8">
+								<!-- Main-menu -->
+								<div class="main-menu f-right d-none d-lg-block">
+									<nav>
+										<ul id="navigation">
+											<li><a href="index.html">Home</a></li>
+											<li><a href="about.html">About</a></li>
+											<li><a href="catagori.html">Catagories</a></li>
+											<li><a href="listing.html">Listing</a></li>
+											<li><a href="#">Page</a>
+												<ul class="submenu">
+													<li><a href="blog.html">Blog</a></li>
+													<li><a href="blog_details.html">Blog Details</a></li>
+													<li><a href="elements.html">Element</a></li>
+													<li><a href="listing_details.html">Listing details</a></li>
+												</ul></li>
+											<li><a href="contact.html">Contact</a></li>
+											<li class="add-list"><a href="listing_details.html"><i
+													class="ti-plus"></i> add Listing</a></li>
+											<li class="login"><a href="#"> <i class="ti-user"></i>
+													Sign in or Register
+											</a></li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+							<!-- Mobile Menu -->
+							<div class="col-12">
+								<div class="mobile_menu d-block d-lg-none"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Header End -->
+	<main>
+		<!-- Hero Start-->
+		<div
+			class="hero-area2  slider-height2 hero-overly2 d-flex align-items-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="hero-cap text-center pt-50">
+							<h2>Japan</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Hero End -->
+		<!--================Blog Area =================-->
+		<main>
+			<section class="py-5 text-center container">
+				<div class="row py-lg-5">
+					<div class="col-lg-6 col-md-8 mx-auto">
+						<h1 class="fw-light">오사카 Osaka</h1>
+						<p class="lead text-muted">일본 혼슈[本州] 세토나이카이[瀨戶內海]의 동쪽에 위치</p>
+						<p>우리나라 교포가 가장 많이 거주하는 지역이다. 1583년 도요토미 히데요시(豊臣秀吉)가 쌓은 오사카 성(城)이 유명하다. 이 밖에도 일본에서 가장 오래된 절인 시덴노 사(四天王寺) 등 많은 유적이 있다.</p>
+						<p>
+							<a href="#" class="btn btn-primary my-2">관심 지역 등록</a>
+							<a href="#" class="btn btn-secondary my-2">비슷한 다른 지역 추천 받기</a>
+						</p>
+					</div>
+				</div>
+			</section>
+			
+			<section style="text-align: center; margin: auto; font-size: 25px">			
+				<h3>현재 선택된 도시</h3>
+				<input type="radio" name="chk_info" value="osaka" checked="checked"> 오사카 &nbsp;&nbsp;
+				<input type="radio" name="chk_info" value="tokyo"> 도쿄 &nbsp;&nbsp;
+				<input type="radio" name="chk_info" value="sapporo]"> 삿포로 &nbsp;&nbsp;
+			</section>
+
+			<div class="album py-5 bg-light">
+				<div class="container">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka2.jpg" width="100%"  height="245px">
+								<div class="card-body">
+									<p class="card-text">오사카성 & 우메다 코스</p>
+									<p class="mini-text">오사카성, 우메다 한큐백화점, 카메스시, 그랑 프론트 오사카, 우메다 공중정원</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">20 months</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka3.jpg" width="100%"  height="245px">
+								<div class="card-body">
+									<p class="card-text">난바 & 도톰보리 코스.</p>
+									<p class="mini-text">난바 파크스, 훗쿄쿠세이, 신사이바시 & 아메리카 무라, 후쿠타로, 도톤보리, 카페 328</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">9 months</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka4.jpg" width="100%" height="245px">
+								<div class="card-body">
+									<p class="card-text">신세카이 코스</p>
+									<p class="mini-text">텐노지 동물원, 야에카츠, 신세카이, 하루카스300 전망대</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">3 months</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka5.jpg" width="100%">
+								<div class="card-body">
+									<p class="card-text">유니버셜 스튜디오 재팬</p>
+									<p class="mini-text">아시아 최초의 오사카 유니버셜 스튜디오는 세계적인 테마 파크</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">9 mins</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka6.jpg" width="100%">
+								<div class="card-body">
+									<p class="card-text">에비스 다리</p>
+									<p class="mini-text">도톤보리 강가에 위치한 에비스 타워와 리버크루즈 선착장</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">7 months</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card shadow-sm">
+								<img src="assets/img/jiyoon/img_osaka7.jpg" width="100%" height="245px" >
+								<div class="card-body">
+									<p class="card-text">텐노지 동물원</p>
+									<p class="mini-text">가족과 함께 여러 동물을 만나 자연을 만끽 할 수 있는 곳</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">자세히</button>
+											<button type="button"
+												class="btn btn-sm btn-outline-secondary">찜</button>
+										</div>
+										<small class="text-muted">50 mins</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<section style="padding-top: 100px; width:100%; text-align: center; margin:0 auto">
+							<h1>오사카의 축제</h1>
+							<h1 style="padding-bottom: 20px">2 0 2 1</h1>
+							<table border="5" style="text-align: left; font-size: 15px">
+								<tr>
+									<td rowspan="2" >1月</td><td>토오카 에비스 마츠리</td>
+								</tr>
+								<tr>									
+									<td>상업의 신 에비스에게 제사를 지내는 것으로 오사카에서 가장 인기있는 축제</td>
+								</tr>
+								<tr>
+									<td rowspan="2">2月</td><td>만토로</td>
+								</tr>
+								<tr>									
+									<td>나라 카스가 타이샤 신사에서 열리는 축제로 해가 지면 2천여개의 등롱을 날리는 축제</td>
+								</tr>								
+								<tr>
+									<td rowspan="2">5月</td><td>아오이 마츠리</td>
+								</tr>
+								<tr>									
+									<td>교토공원에서 오전 10시 30분에 출발해 가미가모 신사로 향하는 퍼레이드</td>
+								</tr>
+								<tr>
+									<td rowspan="2">6月</td><td>아이젠 마츠리</td>
+								</tr>
+								<tr>	
+									<td>대표적인 오사카의 여름축제. 유카타를 비롯해 다양한 의상을 입고 행렬하는 축제</td>
+								</tr>
+								<tr>
+									<td rowspan="2">7月</td><td>텐진 마츠리 / 교토 기온 마츠리</td>
+								</tr>
+								<tr>									
+									<td>가마를 메고 행진하는 광경이나 후나토쿄에서 신령을 태운 배를 띄우는 모습은 엄청난 규모를 자랑함</td>
+								</tr>
+								<tr>
+									<td rowspan="2">8月</td><td>스미요시 마츠리</td>
+								</tr>
+								<tr>									
+									<td>스미요시 타이샤에서 개최되며 화려한 가마를 메고 행진하는 광경이 장관</td>
+								</tr>
+								<tr>
+									<td rowspan="2">8月</td><td>시텐노지 왓쇼이</td>
+								</tr>
+								<tr>									
+									<td>조선통신사의 왕래를 기념하기 위한 축제.  태자가 백제 사절단을 마중하는 모습을 재현하는 가장행렬 축제</td>
+								</tr>								
+								<tr>
+									<td rowspan="2">12月</td><td>고베 루미나리에</td>
+								</tr>
+								<tr>									
+									<td> 고베 대지진의 희생자를 추모하는 행사. 2주간 고베 구거류지를 반짝이는 불빛으로 화려하게 감싼다</td>
+								</tr>
+							</table>
+						</section>
+						<!--================Blog Area end ============-->
+		</main>
+		<footer>
+			<!-- Footer Start-->
+			<div class="footer-area">
+				<div class="container">
+					<div class="footer-top footer-padding">
+						<div class="row justify-content-between">
+							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+								<div class="single-footer-caption mb-50">
+									<div class="single-footer-caption mb-30">
+										<!-- logo -->
+										<div class="footer-logo">
+											<a href="index.html"><img
+												src="assets/img/logo/logo2_footer.png" alt=""></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-2 col-lg-2 col-md-4 col-sm-6">
+								<div class="single-footer-caption mb-50">
+									<div class="footer-tittle">
+										<h4>All packages</h4>
+										<ul>
+											<li><a href="#">Package-1</a></li>
+											<li><a href="#">Package-2</a></li>
+											<li><a href="#">Package-3</a></li>
+											<li><a href="#">Custome</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+								<div class="single-footer-caption mb-50">
+									<div class="footer-tittle">
+										<h4>Quick Link</h4>
+										<ul>
+											<li><a href="#">Contact Us</a></li>
+											<li><a href="#">About Us</a></li>
+											<li><a href="#">News & Articles</a></li>
+											<li><a href="#">Privacy Policy</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+								<div class="single-footer-caption mb-50">
+									<div class="footer-tittle">
+										<h4>+1 514 648 256</h4>
+										<ul>
+											<li><a href="#">youremail@gmail.com</a></li>
+										</ul>
+										<p>123 East 26th Street, Fifth Floor, New York, NY 10011</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="footer-bottom">
+						<div class="row d-flex justify-content-between align-items-center">
+							<div class="col-xl-9 col-lg-9 ">
+								<div class="footer-copy-right">
+									<p>
+										<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+										Copyright &copy;
+										<script>
+											document.write(new Date()
+													.getFullYear());
+										</script>
+										All rights reserved | This template is made with <i
+											class="fa fa-heart" aria-hidden="true"></i> by <a
+											href="https://colorlib.com" target="_blank">Colorlib</a>
+										<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+									</p>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-3">
+								<!-- Footer Social -->
+								<div class="footer-social f-right">
+									<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
+										class="fab fa-twitter"></i></a> <a href="#"><i
+										class="fas fa-globe"></i></a> <a href="#"><i
+										class="fab fa-instagram"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Footer End-->
+		</footer>
+		<!-- Scroll Up -->
+		<div id="back-top">
+			<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+		</div>
+
+		<!-- JS here -->
+		<!-- All JS Custom Plugins Link Here here -->
+		<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+		<script src="./assets/js/popper.min.js"></script>
+		<script src="./assets/js/bootstrap.min.js"></script>
+		<!-- Jquery Mobile Menu -->
+		<script src="./assets/js/jquery.slicknav.min.js"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+		<script src="./assets/js/owl.carousel.min.js"></script>
+		<script src="./assets/js/slick.min.js"></script>
+
+		<!-- One Page, Animated-HeadLin -->
+		<script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+		<script src="./assets/js/jquery.magnific-popup.js"></script>
+
+		<!-- Nice-select, sticky -->
+		<script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+
+		<!-- contact js -->
+		<script src="./assets/js/contact.js"></script>
+		<script src="./assets/js/jquery.form.js"></script>
+		<script src="./assets/js/jquery.validate.min.js"></script>
+		<script src="./assets/js/mail-script.js"></script>
+		<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+
+		<!-- Jquery Plugins, main Jquery -->
+		<script src="./assets/js/plugins.js"></script>
+		<script src="./assets/js/main.js"></script>
+</body>
+
+</html>

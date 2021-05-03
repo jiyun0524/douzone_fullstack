@@ -1,0 +1,5 @@
+// basic.js
+
+export default Function getType(data) {
+	return Object.prototype.toString.call
+}

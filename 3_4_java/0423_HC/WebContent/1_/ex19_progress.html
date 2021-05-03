@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		var i=0;
+		var intval = setInterval(() => {
+			console.log("test"+i++);
+			
+			if( i >= 10 ) {
+				clearInterval(intval);
+			}
+		}, 1000 );
+	});
+</script>
+
+</head>
+<body>
+	
+	<fieldset>
+		<label for="p">Progress :</label>
+		<progress value="0.2" max="1" id="p"></progress>
+		<span>5</span>%
+	</fieldset>
+	<input type="submit" value="send">		
+
+</body>
+</html>

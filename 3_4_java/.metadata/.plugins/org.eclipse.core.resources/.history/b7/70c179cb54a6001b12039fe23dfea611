@@ -1,0 +1,33 @@
+// String(문자 데이터) : ''. ""
+let name = "jiyoon";
+let email = "jiyoon9705@naver.com";
+let hello = `Hello $(name) ??!!`;
+
+str = 'Hello' + name + "!!@@!!@@"
+
+console.log(name);
+console.log(email);
+console.log(hello);
+console.log(str);
+
+/*let fruits = ['Apple', 'Banana', 'Cherry'];
+
+console.log(fruits[0]);
+console.log(fruits[1]);
+console.log(fruits[2]);
+
+console.log(new Date('2021-04-26').getDay()); // 1, 월요일
+console.log(new Date('2021-04-25').getDay()); // 0, 일요일
+console.log(new Date('2021-04-24').getDay()); // 6, 토요일
+*/
+
+/*let x=3;
+var y=30;
+t=900;
+z=888;
+
+if(x==3) console.log(x);
+
+console.log(x);
+console.log(y);
+console.log(t);*/

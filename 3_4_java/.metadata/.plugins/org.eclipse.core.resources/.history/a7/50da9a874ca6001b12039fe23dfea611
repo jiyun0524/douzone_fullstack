@@ -1,0 +1,5 @@
+let x=3;
+var y=30;
+t=900;
+console.log(x);
+console.log(y);

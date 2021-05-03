@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas Test</title>
+<style>
+canvas {
+	border: 1px dotted black;
+}
+
+#img1 {
+	width: 305px;
+	height: 551px;
+	display: none; /*브라우저 랜더링시 보이지 않음.*/
+}
+</style>
+<script>
+	 var x = 0, y = 200; // x값을 저장
+	 var idv = 0; // setInterval
+	 var flag_left = 0;
+	 var flag_right = 0; 
+	 var flag_up = 0;
+	 var flag_down = 0; //방향에 대한 플래그값
+	 
+	
+	 var ctx, img;
+	 var target; // 결과 div
+	 window.onload = function() {
+	  idv = setInterval(draw, 50);
+	  ctx = document.getElementById("can").getContext("2d");
+	  // 일단 문서상에서 숨겨진 이미지 객체를 검색
+	  img = document.getElementById("img1");
+	  target = document.getElementById("res");
+	 };
+	
+	function draw() {
+		ctx.clearRect(0,0, 305, 551);
+		ctx.save();
+		
+		if( flag_left ) x -= 50;
+		if( flag_right ) x += 50;
+		if( flag_up ) y -= 50;
+		if( flag_down ) y += 50;
+		
+	
+	  target.innerHTML = "X : " + x + ", Y : " + y;
+	  ctx.beginPath();
+	  ctx.arc(x, y, 50, 0, (Math.PI / 180) * 360, false);
+	  ctx.clip();
+	  ctx.drawImage(img, 0, 0);
+	  ctx.restore(); // 저장된 상태를 불러 온다.
+	
+	 }
+	 document.onkeydown = function(e) {
+	  console.log(e.keyCode);
+	  if (e.keyCode == 37) {
+	   flag_left = true;
+	
+	  } else if (e.keyCode == 39) {
+	   flag_right = true;
+	   
+	  }else if (e.keyCode == 38) {
+	   flag_up = true;
+	   
+	  }else if (e.keyCode == 40) {
+	   flag_down = true;
+	  }
+	 };
+	 
+	 document.onkeyup = function(e) {
+	  console.log(e.keyCode);
+	  flag_left = flag_right = flag_up = flag_down =  false;
+	 }
+</script>
+</HEAD>
+<body>
+	
+		html5 clip move
+	
+	<canvas id="can" width="305" height="551"></canvas>
+	<img id="img1" src="images/kim.jpg" />
+	<div id="res" style="width: 200px; height: 200px">q</div>
+</body>
+</html>

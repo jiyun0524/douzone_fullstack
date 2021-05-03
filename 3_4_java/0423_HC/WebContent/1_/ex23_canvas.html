@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	#can1 { width: 400px; height: 300px; border: 1px dotted; }
+</style>
+
+<script type="text/javascript">
+	window.onload=function(){
+		
+		var degrees = setInterval((){
+			var mc = document.getElementById("can1");
+			var ctx = mc.getContext("2d");
+			
+			if(degrees <= 360 ) {
+				degrees += 10;
+				var radians = (Math.PI/180) * degrees;
+				
+				ctx.beginPath();
+				ctx.arc(180, 150, 100, 0, radians, false);
+				ctx.fill();
+				ctx.stroke();
+			} else {
+				clearInterval(inter);
+			}
+		}, 500);
+		
+	}
+</script>
+</head>
+<body>
+	<canvas id="can1" width="400" height="300" ></canvas>
+</body>
+</html>

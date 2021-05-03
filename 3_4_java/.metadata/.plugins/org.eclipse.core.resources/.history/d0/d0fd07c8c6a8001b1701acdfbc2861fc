@@ -1,0 +1,55 @@
+// class.js
+
+function Person(first, last) {
+	this.first = first;
+	this.last = last;
+}
+
+//Person.prototype.getFullName = function() {
+//	return `${this.first} ${this.last}`
+//}
+
+// 생성자 함수
+const yoon = new person('kwon', 'park')
+const neo = new Person('Neo', 'Smith') 
+const yuna = new Person('Yuna', 'Kim') 
+console.log(yoon)
+console.log(park.getFullName())
+console.log(neo.getFullName())
+
+//----------------------------------------------//
+
+//클래스
+/*
+const yoon = {
+	firstName:'kwon',
+	lastName:'yoon',
+	getFullName: function () {
+		return `${this.lastName} ${this.firstName}`
+	}
+}
+*/
+
+//----------------------------------------------//
+
+/*
+console.log(yoon.getFullName())
+
+const amy = {
+	firstName: 'Amy',
+	lastName: 'joey',
+	getFullName: function() {
+		return `${this.lastName} ${this.firstName}`
+	}
+}
+*/
+
+//----------------------------------------------//
+
+/*
+new Swiper('.box .red', {
+	name:'aa',
+	age:33,
+	address:'seoul'
+})
+*/

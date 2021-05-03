@@ -1,0 +1,14 @@
+// jsonJS.js
+// JSON (JavaScript Object Notation)
+// 자바스크립트의 객체 표기법
+
+const user = {
+	name: 'Kwon',
+	age: 75,
+	emailes: [
+		'jiyun9705@gmail.com',
+		'jiyun9705@naver.com'
+	]
+}
+
+console.log('user', user)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	#can1 { width: 400px; height: 300px; border: 1px dotted; }
+</style>
+
+<script type="text/javascript">
+	window.onload=function(){
+		
+		var mc = document.getElementById("can1");
+		var ctx = mc.getContext("2d");
+		
+		if(ctx) {
+			ctx.strokeStyle="blue"; //선색상
+			ctx.fillStyle = "red"; // 채우기 색
+			//ctx.fillRect(10, 25, 100, 100);
+			ctx.lineWidth = 5;
+			
+			ctx.beginPath();
+			ctx.arc(150, 150, 1.5*Math.PI, 2*Math.PI, false);
+			ctx.stroke();
+			
+			var degrees = 100;
+			var radians = (Math.PI / 180) * degrees;
+			
+			ctx.beginPath();
+			ctx.arc(180, 150, 100, 0, radians, false);
+			ctx.fill();
+			ctx.stroke();
+		}
+	}
+</script>
+</head>
+<body>
+	<canvas id="can1" width="400" height="300" ></canvas>
+</body>
+</html>

@@ -1,0 +1,13 @@
+let fruits = ['Apple', 'Banana', 'Cherry'];
+
+
+/*let x=3;
+var y=30;
+t=900;
+z=888;
+
+if(x==3) console.log(x);
+
+console.log(x);
+console.log(y);
+console.log(t);*/

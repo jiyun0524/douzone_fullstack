@@ -1,0 +1,29 @@
+// main.js
+const str = `
+	010-9999-3333
+	jiyun9705@naver.com
+	https://namu.wiki/w/%EA%B0%90%EC%9E%90
+	the Wiki 1234 dogsdsdsdtytytt
+	abbcccdddd
+	`
+console.log(str.match(/dog/gi))	
+console.log(str.match(/\./gi))
+console.log(str.match(/\.$/gim))
+console.log(str.match(/d$/gim))
+console.log(str.match(/^t/gim))
+
+//const regexp = new RegExp('wiki', 'gi')
+//const regexp = /dog/gi
+//console.log(regexp.test(str))
+//console.log(str.match(regexp))
+//console.log(str.replace(regexp, 'KKK'))
+//console.log(str)
+
+
+
+
+
+
+
+
+

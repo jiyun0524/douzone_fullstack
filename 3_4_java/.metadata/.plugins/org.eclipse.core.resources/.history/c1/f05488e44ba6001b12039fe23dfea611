@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>ex15_js.html </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+	window.onload = function(){
+		alert('onload event');
+	}
+	
+	document.writeln("javascript로 출력했어요.<br>")
+	
+</script>
+
+</head>
+<body >
+	body 에 출력했어요. <br >
+	<p  onclick="javascript:alert('click');">눌러봐</p>
+	<button onclick="javascript:alert('눌렀네요');" >click</button>
+</body>
+</html>

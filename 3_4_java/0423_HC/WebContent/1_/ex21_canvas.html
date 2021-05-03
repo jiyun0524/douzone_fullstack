@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	#can1 { width: 400px; height: 300px; border: 1px dotted; }
+</style>
+
+<script type="text/javascript">
+	window.onload=function(){
+		var mc = document.getElementById("can1");
+		var ctx = mc.getContext("2d");
+		if(ctx) {
+			ctx.fillStyle = "green"; 
+			ctx.fillRect(10, 25, 100, 100);
+			
+			ctx.save();
+			
+			ctx.lineWidth = 5;
+			ctx.strokeStyle = "rgba(0,0,0,0.4)";
+			ctx.strokeRect(5,20, 110,110);
+			
+			ctx.strokeStyle = "green";
+			ctx.fillStyle="blue"
+			ctx.fillRect(155, 25, 100, 125);
+			ctx.strokeRect(155, 25, 100, 125);
+			
+			ctx.restore();
+			ctx.strokeStyle = "yellow";
+			ctx.fillStyle="red"
+			ctx.fillRect(155, 25, 100, 125);
+			ctx.strokeRect(155, 25, 100, 125);
+			
+			ctx.stroke();
+		}
+	}
+</script>
+</head>
+<body>
+	<canvas id="can1" width="400" height="300" ></canvas>
+</body>
+</html>

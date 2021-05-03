@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex16_js.html</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript" src="../JS/main.js"></script>
+<script type="text/javascript">
+	document.write('<font color="blue" size=6>javascript 이용한 출력 </font><br>');
+	
+	function hello() {
+		alert('안녕하세요');
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>

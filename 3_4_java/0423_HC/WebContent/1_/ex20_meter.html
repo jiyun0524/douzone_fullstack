@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+<script type="text/javascript">
+ // jQuery 로 구현
+	$(function(){
+		var i=0;
+		var interval = setInterval(function() {
+			var pp = $('#m')
+			var pn = parseInt(pp.val(), 10);
+						
+			if( pn > 95 ) {
+				clearInteral(inter);
+			} else {
+				$('#m').attr("value", pn += 5);
+				$('#res').html(parseInt(pn, 10))
+			}
+		}, 500);
+	});
+</script>
+
+</head>
+<body>
+	
+	<fieldset>
+		<label for="m">Meter :</label>
+		<meter value="0" max="100" id="m"></meter>
+		<span id="res">5</span>%
+	</fieldset>
+	<input type="submit" value="send">		
+
+</body>
+</html>

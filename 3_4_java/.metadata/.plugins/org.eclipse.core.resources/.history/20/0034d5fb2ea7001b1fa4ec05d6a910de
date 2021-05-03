@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>10개의 i중에서 짝수일때만 이벤트 발생!</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script defer src="../JS/main.js" type="module"></script>
+
+</head>
+<body>
+	<h2>짝수만 이벤트 발생이지롱</h2>
+	<ul>
+	</ul>
+</body>
+</html>

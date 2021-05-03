@@ -1,0 +1,28 @@
+// class.js
+
+const yoon = {
+	firstName:'kwon',
+	lastName:'yoon',
+	getFullName: function () {
+		return `${this.lastName} ${this.firstName}`
+	}
+}
+
+console.log(yoon.getFullName())
+
+const amy = {
+	firstName: 'Amy',
+	lastName: 'joey',
+	getFullName: function() {
+		return `${this.lastName} ${this.firstName}`
+	}
+}
+
+
+/*
+new Swiper('.box .red', {
+	name:'aa',
+	age:33,
+	address:'seoul'
+})
+*/

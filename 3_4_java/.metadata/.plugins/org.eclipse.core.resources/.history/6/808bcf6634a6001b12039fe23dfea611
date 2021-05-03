@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.container {
+	
+}
+.container .heroes {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background-color: #aa87c9;
+	max-width: 700px;
+	margin: 0 auto;
+	padding: 40px 20px;
+}
+
+.container .heroes .hero {
+	width: 80px;
+	height: 84px;
+	margin: 4px;
+	border: 3px solid #fff;
+	border-radius: 10px;
+	box-sizing: border-box;
+	/* 팽창된 걸 resize해서 맞춰주는거 */
+	background-color: #555;
+	transform: skewX(-14deg);
+	/* 기울어지게 하는거 !! 
+	기본 : 왼쪽으로 기울기
+	- : 오른쪽으로 기울기 */
+}
+
+.container .heroes .hero:hover {
+	background-color: orange;
+	transform: skewX(-14deg) scale(1.4);
+	z-index: 1;
+}
+
+.container .heroes .hero .image {
+		
+}

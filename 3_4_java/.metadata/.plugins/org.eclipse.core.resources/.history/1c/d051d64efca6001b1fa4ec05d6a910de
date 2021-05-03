@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Insert title here</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../JS/ex01.js" type="text/javascript"></script>
+</head>
+	<body>
+		<h1>hello js !</h1>
+		<!-- (div.hero>div.image)*32 tab key -->
+		<div class="box"> box !</div>
+	</body>
+</html>

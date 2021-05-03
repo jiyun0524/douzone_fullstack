@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>insert form ex</title>
+</head>
+	<body>
+<!-- 
+	get 전송방식 : 글자수 제한있음(255), 보안에 취약
+	http://localhost:8080/0422_HC/JSP/result.jsp?id=%EA%B0%90%EC%9E%90&pw=ekfr
+
+		<form action="../JSP/result.jsp" method="get">
+			아 이 디 : <input type="text" name="id" id="id"><br>
+			비밀번호 : <input type="password" name="pw" id="pw"><br>
+			<input type="submit" value="전송">
+			<input type="reset" value="취소">
+		</form>
+-->
+<!-- post 전송방식 : 글자수 제한없음, 약한 보안
+		=> 주소줄에 안뜸 !
+	http://localhost:8080/0422_HC/JSP/result.jsp
+-->
+		<form action="../JSP/result.jsp" method="post">
+			아 이 디 : <input type="text" name="id" id="id"><br>
+			비밀번호 : <input type="password" name="pw" id="pw"><br>
+			<input type="submit" value="전송">
+			<input type="reset" value="취소">
+		</form>
+
+	</body>
+</html>

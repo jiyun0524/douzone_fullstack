@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script defer src="../JS/main.js" type="test/javascript"></script>
+
+</head>
+	<body>
+		<h3>변수 유효범위, var/let/const </h3>
+	</body>
+</html>

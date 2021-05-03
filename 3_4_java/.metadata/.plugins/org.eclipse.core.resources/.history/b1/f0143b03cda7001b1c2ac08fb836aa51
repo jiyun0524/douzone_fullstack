@@ -1,0 +1,7 @@
+// class.js
+
+new Swiper('.box .red', {
+	name:'aa',
+	age:33,
+	address:'seoul'
+})

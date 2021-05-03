@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+/* 3. 외부파일 링크 */
+
+p {
+	background: lightblue;
+	height: 60px;
+}
+
+div {
+	background: orange;
+	height: 50px;
+	width: 200px;
+	margin-left: 150px;
+}

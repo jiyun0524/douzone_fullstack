@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>card list</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+	<!-- HEAD Start-->
+	<!-- <div class="hero-area2  slider-height2 hero-overly2 d-flex align-items-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="hero-cap text-center pt-50">
+						<h2>japan</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<!--HEAD End -->
+	
+	<div class="hero-area2">
+		<div class="hero-cap">
+			<h2>japan</h2>
+		</div>
+	</div>
+</body>
+</html>

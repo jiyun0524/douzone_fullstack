@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex27_js.html - export/import</title>
+<!-- CDN 방식 링크 걸기 -->
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+<script src="../js/axios.js" type="text/javascript"></script>
+<script src="../js/jsonJS.js" type="module"></script>
+
+<script type="text/javascript">
+ 	function myMovies() {
+ 		//const axios = require('axios');
+ 	 	
+ 	 	axios.get('http://www.omdbapi.com/?apikey=a0d63a07&s=Frozen')
+ 	 			.then( res => {
+ 	 				console.log(res);
+ 	 				const h4El = document.querySelector('h4')
+ 	 				const imgEl = document.querySelector('img')
+ 	 				h4El.textContent = res.data.Search[5].Title
+ 	 				imgEl.src = res.data.Search[2].Poster
+ 	 			})
+	}
+ 	
+ 	myMovies()
+ </script>
+</head>
+<body>
+	<h4>JSON test</h4>
+
+	<img alt="" src="" width="200">
+
+</body>
+</html>
+
+
+
+

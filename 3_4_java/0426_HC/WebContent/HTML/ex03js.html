@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex16_js.html</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript" src="../JS/main.js"></script>
+<script type="text/javascript">
+	let list;
+	window.onload = function() {
+		alert("innerHTML : " + document.body.innerHTML + '\n' + "innerText : "
+				+ document.body.innerText);
+
+		list = ' ';
+		list += "<ul>";
+		list += "<li>Hello </li>";
+		list += "<li>Hi </li>";
+		list += "<li>Good-bye </li>";
+		list += "</ul>";
+
+		//document.body.innerHTML = list;
+	} // 
+
+	//document.write(list);
+
+	document.write('<font color="blue" size=6">javascript 이용한 출력 </font><br>');
+
+	/* 	function hello() {
+	 alert('안녕하세요');
+	 } */
+
+	console.log('KWON');
+
+	function countIncrease() {
+		let spanObj = document.getElementById('countSpan');
+		spanObj.innerHTML = parseInt(spanObject.innerHTML) + 1;
+	}
+</script>
+</head>
+<!-- <body onload="hello()"> -->
+<body>
+
+	<span id="countSpan">0</span> 번 클릭 &nbsp;&nbsp;
+	<input type="button" value="클릭" onclick="countIncrease()">
+	<hr>
+	<br>
+	<br> Good!!!
+	<br />
+	<h5>미리 축합니다. ^^</h5>
+</body>
+</html>
