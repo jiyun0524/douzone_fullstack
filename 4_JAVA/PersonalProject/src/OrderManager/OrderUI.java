@@ -2,7 +2,7 @@ package OrderManager;
 
 
 import java.util.*;
-//ÁÖ¹®Á¢¼ö ui
+//ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ ui
 public class OrderUI {
 	private static int nPersonCnt = 0;
 	
@@ -15,16 +15,16 @@ public class OrderUI {
 	public void InsertCustomer(){
 		nPersonCnt++;
 		Customer cm = new Customer();
-		System.out.println("====== È¸¿ø Á¤º¸ ÀÔ·Â  ======");
+		System.out.println("====== È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½  ======");
 		cm.setnNum(nPersonCnt);
 		
-		System.out.print("ÀÌ¸§ ÀÔ·Â:");
+		System.out.print("ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½:");
 		cm.setStrName(new Scanner(System.in).nextLine());
 		
-		System.out.print("ÁÖ¼ÒÀÔ·Â:");
+		System.out.print("ï¿½Ö¼ï¿½ï¿½Ô·ï¿½:");
 		cm.setStrAddress(new Scanner(System.in).nextLine());
 
-		System.out.print("ÀüÈ­¹øÈ£:");
+		System.out.print("ï¿½ï¿½È­ï¿½ï¿½È£:");
 		cm.setStrTell(new Scanner(System.in).nextLine());
 		
 		om.InputCustom(nPersonCnt,cm);
@@ -34,15 +34,15 @@ public class OrderUI {
 		
 		om.orderinfo.items.printItemList();
 				
-		System.out.println("====== ¼öÁÖ Á¤º¸ ÀÔ·Â  ======");
+		System.out.println("====== ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½  ======");
 				
-		System.out.print("È¸¿ø¹øÈ£ ÀÔ·Â:");
+		System.out.print("È¸ï¿½ï¿½ï¿½ï¿½È£ ï¿½Ô·ï¿½:");
 		int nPersonNumber = (new Scanner(System.in).nextInt());
 		
-		System.out.print("»óÇ°ÄÚµå ÀÔ·Â:");
+		System.out.print("ï¿½ï¿½Ç°ï¿½Úµï¿½ ï¿½Ô·ï¿½:");
 		String stritemcode = (new Scanner(System.in).nextLine());
 		
-		System.out.print("°¹¼ö ÀÔ·Â: ");
+		System.out.print("ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½: ");
 		int nCount = (new Scanner(System.in).nextInt());
 			
 		om.InputItemInfo(nPersonNumber,stritemcode, nCount);

@@ -5,11 +5,11 @@ import java.util.*;
 
 import OrderManager.ItemInfoList;
 
-// ¼öÁÖ Å¬·¡½º (1Â÷ ¿Ï·á)
+// ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ (1ï¿½ï¿½ ï¿½Ï·ï¿½)
 
 public class Order {
-	private static int oIndex; // ¼öÁÖ¹øÈ£
-	private Calendar oDate; // ¼öÁÖ³¯Â¥
+	private static int oIndex; // ï¿½ï¿½ï¿½Ö¹ï¿½È£
+	private Calendar oDate; // ï¿½ï¿½ï¿½Ö³ï¿½Â¥
 	
 	private HashMap<Integer, Stock> infoOrder= new HashMap();
 	private HashMap infoCust = new HashMap();
@@ -29,7 +29,7 @@ public class Order {
 		this.infoCust.put(cNum, cust);
 	}
 	
-	// »õ »óÇ° Ãß°¡ ÇÔ¼ö
+	// ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ß°ï¿½ ï¿½Ô¼ï¿½
 	public void AddStock(int gPercent, String gCode, int gCount) {
 		oIndex++;
 		Customer cust = new Customer();
@@ -40,7 +40,7 @@ public class Order {
 				orderlist.getGoodsDiscount(gCode), cust, getoDate()));
 	}
 	
-	// ³¯Â¥ ¹Þ¾Æ¿À´Â ÇÔ¼ö
+	// ï¿½ï¿½Â¥ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	private String getoDate() {
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -48,27 +48,27 @@ public class Order {
 		return today.format(date);
 	}
 	
-	// È¸¿ø Á¤º¸ ÀÔ·Â ÇÔ¼ö
+	// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½Ô¼ï¿½
 	public void AddCust() {
 		infoAll.add(infoCust);
-		System.out.println("ÀÔ·ÂÇÑ È¸¿øÁ¤º¸ µî·Ï¿Ï·á");
+		System.out.println("ï¿½Ô·ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿Ï·ï¿½");
 	}
 	
 	public void AddOrder() {
 		infoAll.add(infoOrder);
-		System.out.println("ÁÖ¹® µî·Ï ¿Ï·á");
+		System.out.println("ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
 	}
 	
 	public void displayAll() {
-		System.out.println("ÀüÃ¼ ÁÖ¹® È®ÀÎ");
+		System.out.println("ï¿½ï¿½Ã¼ ï¿½Ö¹ï¿½ È®ï¿½ï¿½");
 		
 		HashMap hm2 = new HashMap();
 		if(infoAll.size() == 0) {
-			System.out.println("ÁÖ¹® µî·Ï error");
+			System.out.println("ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ error");
 			return;
 		}
-		hm2 = (HashMap)infoAll.get(1); // ÁÖ¹® Á¤º¸
-		System.out.println("È¸¿ø¹øÈ£\tÁÖ¹®¹øÈ£\t»óÇ°ÄÚµå\t»óÇ°¸í\t°¡°Ý\t°¹¼ö\tÇÒÀÎÀ²\tÁÖ¹®³¯Â¥");
+		hm2 = (HashMap)infoAll.get(1); // ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½
+		System.out.println("È¸ï¿½ï¿½ï¿½ï¿½È£\tï¿½Ö¹ï¿½ï¿½ï¿½È£\tï¿½ï¿½Ç°ï¿½Úµï¿½\tï¿½ï¿½Ç°ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\tï¿½Ö¹ï¿½ï¿½ï¿½Â¥");
 		Set<Integer> set = hm2.keySet();
 		for(int index : set) {
 			
@@ -85,14 +85,14 @@ public class Order {
 		System.out.println("======================");
 	}
 	
-	public void CustomOrderPrint(int cNum) {
-		System.out.println("È¸¿øÁÖ¹®È®ÀÎ");
+	public void displayCustomOrder(int cNum) {
+		System.out.println("È¸ï¿½ï¿½ï¿½Ö¹ï¿½È®ï¿½ï¿½");
 		
 		HashMap hm2 = new HashMap();
-		hm2 = (HashMap)infoAll.get(1);//ÁÖ¹®Á¤º¸
+		hm2 = (HashMap)infoAll.get(1);//ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		System.out.println("===========================================");
 		Set<Integer> set2 = hm2.keySet();
-		System.out.println("ÁÖ¹®¹øÈ£\t»óÇ°ÄÚµå\t»óÇ°¸í\t°¡°Ý\t°¹¼ö\tÇÒÀÎÀ²\tÁÖ¹®³¯Â¥");
+		System.out.println("ï¿½Ö¹ï¿½ï¿½ï¿½È£\tï¿½ï¿½Ç°ï¿½Úµï¿½\tï¿½ï¿½Ç°ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½\tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\tï¿½Ö¹ï¿½ï¿½ï¿½Â¥");
 		for(int index : set2){			
 			Stock stock = (Stock)hm2.get(index);
 			
@@ -109,14 +109,14 @@ public class Order {
 		
 		System.out.println("===========================================");
 	}
-	public void Cancel (int cNum) {
+	public void DelOrder (int cNum) {
 		HashMap hm3 = new HashMap();
 		
-		hm3 = (HashMap)infoAll.get(1); // È¸¿øÁ¤º¸
+		hm3 = (HashMap)infoAll.get(1); // È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		if(hm3.containsKey(cNum)) {
 			hm3.remove(cNum);
 		}
-		System.out.println("»èÁ¦ ¿Õ·á");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Õ·ï¿½");
 	}
 }
