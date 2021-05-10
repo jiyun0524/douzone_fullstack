@@ -1,0 +1,16 @@
+/* src/css/quiz.css */
+
+div {
+	/* text-align: center;
+	margin: 0 auto; */
+	background-color: lightblue;
+}
+
+table {
+	text-align: center;
+	border-spacing: 0px;
+}
+
+th, td {
+	padding: 10px;	
+}
