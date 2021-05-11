@@ -1,0 +1,41 @@
+/* board.css */
+
+body {
+	text-align: center;
+	margin: 0 auto;
+	padding : 0 auto;
+}
+
+header {
+	background-color: dodgerblue;
+	height: 150px;
+}
+
+header h1 {
+	line-height: 150px;
+	font-size: 4.5em;
+	color: white;
+	font-weight: bold;
+	text-shadow: 3px 3px 3px black;
+}
+
+nav {
+	text-align: right;
+}
+
+nav ul {
+	background-color: lightblue;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+nav li {
+	float:left;
+	margin-right: 20px;
+	font-size: 1.5em;
+}
+
+nav ul li a{
+	text-decoration: none;
+}
