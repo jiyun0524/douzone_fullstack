@@ -51,11 +51,11 @@ function App() {
 		phone
 	};
 	setUsers(users.concat(user));
-		setInputs({
-			username:'',
-			email:'',
-			phone:''
-		});
+	setInputs({
+		username:'',
+		email:'',
+		phone:''
+	});
 
 	nextId.current += 1;
 	};
@@ -63,6 +63,13 @@ function App() {
 	const onRemove = id => {
 		setUsers(users.filter(user => user.id !== id));
 	};
+	const onToggle = id => {
+		setUsers(
+			users.map(user =>
+				user.id === id ? { ...user, active : !user.active } : user
+			)
+		)
+	}
 	return (
 		<>
 			<CreateUser
@@ -72,7 +79,7 @@ function App() {
 				onCreate={onCreate}
 				onChange={onChange}
 			/>
-			<UserList users={users} onRemove={onRemove}/>
+			<UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
 		</>
 	);
 }
