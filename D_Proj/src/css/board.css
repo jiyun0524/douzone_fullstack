@@ -4,7 +4,6 @@ body {
 	text-align: center;
 	margin: 0 auto;
 	padding : 0 auto;
-	
 }
 
 header {
@@ -28,7 +27,7 @@ nav ul {
 	background-color: lightblue;
 	list-style-type: none;
 	margin: 0;
-	padding-left: 30;
+	padding: 0;
 	overflow: hidden;
 }
 nav li {
@@ -39,33 +38,4 @@ nav li {
 
 nav ul li a{
 	text-decoration: none;
-}
-
-.center {
-	margin: 80px 150px;
-}
-
-table, th, td {
-	border: 1px solid dodgerblue;
-	font-size: 1.3em;
-}
-
-#bNum {
-	width: 10em;
-}
-
-#bTitle {
-	width: 50em;
-}
-
-#bDate {
-	width: 15em;
-}
-
-#bWriter {
-	width: 10em;
-}
-
-#bComm {
-	width: 10em;
 }
