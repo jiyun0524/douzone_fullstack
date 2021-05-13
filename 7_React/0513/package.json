@@ -16,8 +16,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^2.1.5",
-    "use-react-router": "^1.0.7"
+    "react-scripts": "^2.1.5"
   },
   "browserslist": [
     ">0.2%",
