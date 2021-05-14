@@ -2,19 +2,19 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import './css/basic.css';
-import Home from './Home';
-import About from './About';
-import Profiles from './Profiles';
-import HistorySample from './HistorySample';
+import Home from './components/Home';
+import About from './components/About';
+import Profiles from './components/Profiles';
+import HistorySample from './components/HistorySample';
 
 const App = () => {
 	return (
 		<div>
 			<ul>
-				<li><Link to="/">í™ˆ</Link></li>
-				<li><Link to="/about">ì†Œê°œ</Link></li>
-				<li><Link to="/profiles">í”„ë¡œí•„ ëª©ë¡</Link></li>				
-				<li><Link to="/history">ì˜ˆì œ</Link></li>
+				<li><Link to="/">Home</Link></li>
+				<li><Link to="/about">About</Link></li>
+				<li><Link to="/profiles">Profiles</Link></li>				
+				<li><Link to="/history">History</Link></li>
 			</ul>
 			<hr />
 			<Switch>
@@ -23,10 +23,10 @@ const App = () => {
 				<Route path="/profiles" component={Profiles} />
 				<Route path="/history" component={HistorySample} />
 				<Route
-					// pathë¥¼ ë”°ë¡œ ì •ì˜í•˜ì§€ ì•Šìœ¼ë©´ ëª¨ë“  ìƒí™©ì— ë Œë”ë§ ë¨ë‹¹
+					// pathë¥? ?”°ë¡? ? •?˜?•˜ì§? ?•Š?œ¼ë©? ëª¨ë“  ?ƒ?™©?— ? Œ?”ë§? ?¨?‹¹
 					render={({ location }) => (
 						<div>
-							<h2>ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” íŽ˜ì´ì§€ ìž…ë‹ˆë‹¤ ì‚ì‚ì‚	</h2>
+							<h2>ì¡´ìž¬?•˜ì§? ?•Š?Š” ?Ž˜?´ì§? ?ž…?‹ˆ?‹¤ ?‚?‚?‚	</h2>
 							<h4>{ location.pathname } </h4>
 						</div>
 					)}

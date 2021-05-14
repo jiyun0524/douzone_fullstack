@@ -9,17 +9,17 @@ const TodoListBlock = styled.div`
 	padding: 20px 32px 48px 32px;
 	overflow-y: auto;
 	background-color: lightblue;
-	/* => ì‚¬ì´ì¦ˆ ì¡°ì •ì„ í™•ì¸í•˜ê¸° ìœ„í•œ ì„ì‹œ ìŠ¤íƒ€ì¼  */
+	/* => ?‚¬?´ì¦? ì¡°ì •?„ ?™•?¸?•˜ê¸? ?œ„?•œ ?„?‹œ ?Š¤????¼  */
 `;
 
 function TodoList() {
 	return (
 	<TodoListBlock>
-		<TodoItem text="ë¦¬ì•¡íŠ¸ ê°•ì˜ ë³´ê¸°" done={false}/>
-		<TodoItem text="todo list ì‹¤ìŠµí•˜ê¸°" done={true}/>
-		<TodoItem text="ë¸”ë¡œê·¸ì— í¬ìŠ¤íŒ… í•˜ê¸°" done={false}/>
-		<TodoItem text="ê°œì¸ ê³¼ì œ êµ¬ìƒí•˜ê¸°" done={false}/>
-		<TodoItem text="ê²Œì‹œíŒ í”„ë¡œì íŠ¸" done={false}/>		
+		<TodoItem text="ë¦¬ì•¡?Š¸ ê°•ì˜ ë³´ê¸°" done={false}/>
+		<TodoItem text="todo list ?‹¤?Šµ?•˜ê¸?" done={true}/>
+		<TodoItem text="ë¸”ë¡œê·¸ì— ?¬?Š¤?Œ… ?•˜ê¸?" done={false}/>
+		<TodoItem text="ê°œì¸ ê³¼ì œ êµ¬ìƒ?•˜ê¸?" done={false}/>
+		<TodoItem text="ê²Œì‹œ?Œ ?”„ë¡œì ?Š¸" done={false}/>		
 	</TodoListBlock>
 	);
 }
