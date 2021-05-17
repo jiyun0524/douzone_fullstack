@@ -9,7 +9,7 @@ const DECREASE = 'counter/DECREASE';
 
 /* 액션 생성함수 만들기 */
 // 액션 생성함수를 만들고 export 키워드를 사용해서 내보내보자
-export const sestDiff = diff => ({ type : SET_DIFF, diff });
+export const setDiff = diff => ({ type : SET_DIFF, diff });
 export const increase = () => ({ type: INCREASE });
 export const decrease = () => ({ type: DECREASE });
 
