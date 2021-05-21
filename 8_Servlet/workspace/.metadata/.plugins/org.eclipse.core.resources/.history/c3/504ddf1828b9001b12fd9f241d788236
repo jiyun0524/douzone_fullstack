@@ -1,0 +1,65 @@
+<!-- ex17_useBean.jsp -->
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ page import="edu.bit.*" %>
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>useBean Action Tag</title>
+</head>
+  <!-- new 로 객체 생성하던 것을 tag로 객체 생성하기 위해 나온 액션 태그 -->
+  <jsp:useBean id="e2" class="edu.bit.Emp" />
+  
+ <%--  <jsp:setProperty property="empno" name="e2" value="7777" />
+  <jsp:setProperty property="name" name="e2" value="박태환"/>
+  <jsp:setProperty property="pay" name="e2" value="8000"/> --%>
+  
+   <jsp:setProperty property="*" name="e2" />
+   
+  이름 : <jsp:getProperty property="name" name="e2"/><br>
+  사번 : <jsp:getProperty property="empno" name="e2"/><br>
+  급여 : <jsp:getProperty property="pay" name="e2"/><br>
+
+<body>
+<hr>
+<%
+
+	//오늘 날짜를 출력하기
+	Date today = new Date();
+	out.print(today);
+	
+	/* 기존에 객체를 생성하던 방법 */
+	Emp e = new Emp();
+	e.setName("강감찬");
+	e.setEmpno(1005);
+	e.setPay(5000);
+	
+	out.print(e.getEmpno() + "\t");
+	out.print(e.getName() + "\t");
+	out.print(e.getPay() + "\t");
+	
+	e2.setEmpno(1004);
+	e2.setName("김연아");
+	e2.setPay(1000);
+%>
+<br><br><br>
+ <%= e2.getEmpno() %> <br>
+ <%= e2.getName() %> <br>
+ <%= e2.getPay() %> <br>
+
+<hr />
+	useBean 이용해서 객체 생성하기 <br/>
+	<jsp:useBean id="now" class="java.util.Date" />
+	<%= now %>
+</body>
+</html>
+
+
+
+
+
+
+
+

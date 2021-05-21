@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.io.*, java.net.* "%>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>JSP basic</title>
+</head>
+<body>
+	<h2>jsp는 HTML 코드안에 JAVA 코드가 들어간다</h2>
+	<% %>
+	<%! %>
+	<%= %>
+<%--  주석 부분
+	<% JSP 시작태그
+	
+	%> JSP 끝 태그
+--%>
+</body>
+</html>

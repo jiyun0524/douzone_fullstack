@@ -1,0 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title> ex03_el.jsp EL 사용 예제</title>
+</head>
+<body>
+
+<!--   \문자  ==> 해당 문자를 표현, \\, \"   -->
+
+ <h3>${ 5+ 7 }</h3>
+</body>
+</html>
