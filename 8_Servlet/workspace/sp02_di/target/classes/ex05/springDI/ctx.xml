@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+	<bean p:greeting="또봐요!" p:name="이순신" name="m1, m2, xyz"
+		id="messageBeanImpl" class="ex05.springDI.MessageBeanImpl">
+
+		<!-- <constructor-arg><value>강감찬</value></constructor-arg><constructor-arg 
+			value="안녕하세요. 반가워요!!!" /><property name="name"><value>김연아</value></property><property 
+			name="greeting" value="방가방가~~" /> -->
+	</bean>
+</beans>

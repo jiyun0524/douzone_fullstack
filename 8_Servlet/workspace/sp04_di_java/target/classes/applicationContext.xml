@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- applicationContext.xml -->
+
+	
+	<bean id="cats"  class="ex01.Cats"/>
+	
+	<bean id="myCats" class="ex01.MyCats">
+		<property name="cats">
+			<ref bean="cats"/>  
+		</property>
+		<property name="firstCatName" value="쿠키" />
+		<property name="secondCatName" value="냐옹이" />
+		<property name="firstCatAge" value="12" />
+		<property name="secondCatAge" value="3" />
+	
+	</bean>
+
+</beans>
+
+
+
+
+
+
+
+
+
+

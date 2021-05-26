@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- ctx.xml -->
+	<!-- ICalc proxy = (ICalc)Proxy.newProxyInstance(
+				cal.getClass().getClassLoader(),	//loader, 클래스 찾는 코드
+				cal.getClass().getInterfaces(),		//interfaces, 행위정보(interface)
+				new LogPrintHandler(cal));			//h  핸들러 
+		org.springframework.aop.framework.ProxyFactoryBean  bean 생성해야함		
+				 -->
+	<bean id="calImpl" class="ex03.aop.spring.CalImpl" />	
+	<bean id="logPrintAroundAdvice" class="ex03.aop.spring.LogPrintAroundAdvice" />	
+	
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<list>
+				<value>ex03.aop.spring.ICalc</value>  <!-- 인터페이스 경로 -->
+			</list>
+		</property>
+		<property name="target" ref="calImpl"></property>
+		<property name="interceptorNames">   <!-- 보조관심사 -->
+			<list>
+				<value>logPrintAroundAdvice</value>   <!-- 핸들러ID값 -->
+			</list>
+		</property>
+	
+	</bean>
+		 
+
+</beans>
+
+
+
+
+
+
+
+
+
