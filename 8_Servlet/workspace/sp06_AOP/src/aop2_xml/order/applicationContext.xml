@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+<!-- 1. target 빈 -->
+<bean id="targetBean" class="aop2_xml.order.MemberServiceImpl"/>
+<!-- 2. advice 빈 -->
+<bean id="aroundAdvice" class="aop2_xml.order.LoggingAdvice"/>
+<bean id="sampleAdvice" class="aop2_xml.order.LoggingSample"/>
+
+<!-- 3. AOP 설정 환경  -->
+<aop:config>
+	<aop:pointcut expression="execution(public * *(..))" id="pointCut"/>
+	
+	<aop:aspect id="aroundAspect" ref="aroundAdvice" order="2">
+		<aop:around method="around" pointcut-ref="pointCut"/>
+	</aop:aspect>
+	
+	<aop:aspect id="sampleAspect" ref="sampleAdvice" order="1">
+		<aop:before method="before"  pointcut-ref="pointCut"/>
+		<aop:after-returning method="afterReturning"  pointcut-ref="pointCut"/>
+		<aop:after method="afterFinally"  pointcut-ref="pointCut"/>
+	</aop:aspect>	
+</aop:config>
+
+</beans>
