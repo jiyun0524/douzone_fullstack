@@ -2,10 +2,16 @@ package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 // ctrl + shift + t : 이거랑 연결된 Test 파일 만들기
+
+@Service
+// => spring에 올라올 때 MemberService 함수가 '서비스네' 하고
+// springcontainer의 MemberService를 등록해줌
 public class MemberService {
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -13,6 +19,9 @@ public class MemberService {
 //    직접 내가 new 로 생성하는게 아니라 외부의 것을 가지고 오는거기 때문에 동일한 것 참조
       private final MemberRepository memberRepository;
 
+      @Autowired
+//      이게있으면 spring이 MemberService를 생성할 때
+//      너는 memberRepository가 필요하구나 ! 하고 넣어줌
       public MemberService(MemberRepository memberRepository) {
           this.memberRepository = memberRepository;
       }
