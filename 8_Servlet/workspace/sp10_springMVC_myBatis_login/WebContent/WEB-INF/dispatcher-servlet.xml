@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- dispatcher-servlet.xml -->
+	
+
+	<!-- ViewResolver 구현 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/views/" />  <!-- 접두사 -->
+		<property name="suffix" value=".jsp" />   <!-- 접미사 -->
+	</bean>
+
+</beans>

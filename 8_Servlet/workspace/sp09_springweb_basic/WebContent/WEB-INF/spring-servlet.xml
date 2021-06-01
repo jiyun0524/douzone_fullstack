@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<!-- spring-servlet.xml -->
+
+	<context:annotation-config />
+
+	<!-- 사용자가 만든 클래스 인스턴스 생성 디비 연결 -->
+	<!-- Test_1 -->
+	<bean class="kr.controller.HelloController" name="/hello.do" />
+	<bean class="kr.controller.MessageContrller" />
+
+	<!-- Test_2 HTTP 전송(Form: GET, POST) -->
+	<bean class="kr.controller.NewArticleController" />
+	<bean class="kr.service.ArticleService" />
+
+	<!-- Test_3 HTTP 전송(Form: GET, POST) List, Object -->
+	<bean class="kr.controller.OrderController" />
+
+	<!-- Test_4 HTTP 전송(@RequestParam) -->
+	<bean class="kr.controller.SearchController" />
+
+	<!-- Test_5 Cookie @CookieValue 사용하기 -->
+	<bean class="kr.controller.CookieController" />
+	
+	<!-- Test_6 @ModelAttribute 사용하기 -->
+	<bean class="kr.controller.CodeSearchContoller" />
+
+	<!-- ViewResolver 구현 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/view/" />  <!-- 접두사 -->
+		<property name="suffix" value=".jsp" />   <!-- 접미사 -->
+	</bean>
+</beans>
