@@ -1,0 +1,46 @@
+json.txt
+
+XML
+JSON 
+
+String : value
+number : value
+boolean : value
+object : value {  }
+array : value [ ]
+
+{
+	"phone_number" : "010-1111-2222",
+	"age" : 10,
+	"isAgree: false,
+	"account": {
+		"email" : "jiyun9705@naver.com",
+		"password": "12345"
+	}
+
+}
+
+// user 조회 하는 경우
+{
+	"user_list" : [
+		{
+			"account": "jiyoon",
+			"password": "12345"
+		},
+		{
+			"account": "kingsmile",
+			"password": "12345"
+		}
+	]
+}
+
+ex) 실습예시
+
+{
+	"account": "helloworld",
+	"email" : "hello@world.com",
+	"password": "hello",
+	"address": "world",
+  	"phone_number":"111",
+ 	"DPI" : "est"
+}

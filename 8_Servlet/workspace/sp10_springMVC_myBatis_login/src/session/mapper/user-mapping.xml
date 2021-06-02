@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LoginDAO">
+	<select id="checkUser" parameterType="vo.UserMemberVO" resultType="int">
+		SELECT COUNT(*) FROM USERMEMBER WHERE ID = #{id} AND PWD = #{pwd}
+	</select>
+	
+	<select id="getId" parameterType="String" resultType="String">
+		SELECT ID FROM USERMEMBER WHERE ID = #{id}
+	</select>
+</mapper>

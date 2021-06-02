@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<a href='board/getBoard.do?seq=2'>게시글보기(있는 번호 확인)</a>
+<a href='board/getBoard.do?seq=25'>게시글보기(있는 번호 확인)</a>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-
+// reply.js
 $(function(){
 
 	// 댓글버튼이 눌렸을 때

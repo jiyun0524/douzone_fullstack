@@ -1,6 +1,5 @@
 package com.javassem.basic;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +20,10 @@ public class SampleController {
 		return "컨트롤러에서 보냄";
 	}
 	
-	
 	// 2. 객체 반환
 	@GetMapping(value="/getObject")
 	public SampleVO getObject() {
-		SampleVO vo = new SampleVO("gildong",33,"우리는 행복한다"); 
+		SampleVO vo = new SampleVO("gildong",33,"우리는 행복한다");
 		return vo;
 	}
 	
@@ -50,7 +48,5 @@ public class SampleController {
 	public SampleVO post(SampleVO vo) {
 		System.out.println("[확인]");
 		return vo;
-	}
-
-	
+	}	
 }

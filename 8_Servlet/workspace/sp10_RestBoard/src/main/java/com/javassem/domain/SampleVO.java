@@ -17,6 +17,7 @@ public class SampleVO {
 	private Integer age;
 	private String message;
 	
+	// lombok을 설치했기때문에 @setter, @getter 자동완성되고 하단에 생성자부분 없어도 됨
 	/*
 	 * @Data = @Getter/@Setter + @ToString + @EqualsAndHashCode + @RequriedArgsConstructor
 	 */
