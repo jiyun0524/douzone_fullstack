@@ -26,18 +26,18 @@
 		})
 		
 		$("#submit").on("click", function() {
-			if($("#mId").val() == "" {
+			if($("#mId").val() == "") {
 				alert("아이디를 입력하세요 !");
 				$("#mId").focus();
 				return false;
 			}
 			
-			if($("#mPwd").val() == "" {
+			if($("#mPwd").val() == "") {
 				alert("비밀번호를 입력하세요 !");
 				$("mPwd").focus();
 				return false;				
 			}
-			if($("mName").val() == "" {
+			if($("mName").val() == "") {
 				alert("이름을 입력하세요 !");
 				$("mName").focus();
 				return false;
@@ -48,7 +48,7 @@
 
 <body>
 	<section id="container">
-		<form action="/member/register" method="post">
+		<form action="/member/register.jsp" method="post">
 			<div class="form-group">
 				<label class="control-label" for="mId">아이디</label>
 				<input class="form-control" type="text" id="mId" name="mId" />
@@ -58,7 +58,7 @@
 				<input class="form-control" type="text" id="mPwd" name="mPwd" />
 			</div>
 			<div class="form-group">
-				<label class="control-label" for="mName">아이디</label>
+				<label class="control-label" for="mName">이름</label>
 				<input class="form-control" type="text" id="mName" name="mName" />
 			</div>
 			<div class="form-group">
