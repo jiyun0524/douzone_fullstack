@@ -1,0 +1,11 @@
+package com.example.client.dto;
+
+public class Req {
+	
+	private Header header;
+	
+	public static class Header {
+		private String responseCode;
+		
+	} // inner class Header
+}

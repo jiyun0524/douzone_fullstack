@@ -1,0 +1,27 @@
+package com.example.client.dto;
+
+public class Req<T> {
+	
+	private Header header;
+	private httpBody;
+	
+//	inner class
+	public static class Header {
+		private String responseCode;
+
+		public String getResponseCode() {
+			return responseCode;
+		}
+
+		public void setResponseCode(String responseCode) {
+			this.responseCode = responseCode;
+		}
+
+		@Override
+		public String toString() {
+			return "Header [responseCode=" + responseCode + "]";
+		}
+		
+		
+	} // inner class Header
+}
